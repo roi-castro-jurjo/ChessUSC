@@ -1,0 +1,350 @@
+@font-face {
+    font-family: 'Intro';
+    src: url("fonts/Intro.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'WynfordLine';
+    src: url("fonts/WynfordLine-d95w6.otf") format("opentype");
+}
+
+@font-face {
+    font-family: 'WynfordObliqueLine';
+    src: url("fonts/WynfordObliqueLine-gx2dY.otf") format("opentype");
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Intro';
+    background-color: black;
+}
+
+/********* HEADER *********/
+
+.top-bar {
+    height: 10vh;
+    min-height: 4em;
+    width: 100vw;
+    display: flex;
+    flex-direction: row;
+    border-bottom: 2px solid white;
+    font-family: 'Intro';
+}
+
+.top-bar a {
+    color: white;
+}
+
+/********* LEFT SIDE HEADER LOGO  *********/
+
+.top-bar .header-logo a {
+    text-decoration: none;
+} 
+
+.top-bar .header-logo {
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+.top-bar .header-logo .logo-div {
+    height: 100%;
+}
+
+.top-bar .header-logo .text-div {
+    height: 100%;
+    font-size: calc(1rem + 1vw);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow: hidden;
+}
+
+.top-bar .header-logo .text {
+    margin: auto 0;;
+}
+
+.top-bar .header-logo .imagen {
+    height: 100%;
+}
+
+/********* MIDDLE HEADER BUTTONS *********/
+
+.top-bar .header-buttons {
+    height: 100%;
+    width: 50%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-bar .header-buttons .button {
+    margin: 0 4%;
+}
+
+/********* RIGHT SIDE HEADER NOTIFICATION AND PROFILE BUTTONS *********/
+
+.top-bar .header-notifications-profile {
+    height: 100%;
+    width: 25%;
+    display: flex;
+    flex-direction: row;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+}
+
+.top-bar .header-notifications-profile div {
+    margin: 0 10%;
+}
+
+.top-bar .header-notifications-profile .notifications-button, .top-bar .header-notifications-profile .profile-button {
+    height: 30%;
+    background-color: #FFFFFF;
+    border-radius:100%;
+    padding: 10px;
+}
+
+/************************************ MAIN CONTAINER ************************************/
+
+.main-container {
+    height: 90vh;
+    width: 100vw;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.main-container-content {
+    height: 85%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    height: 85vh;
+    min-height: 700px;
+    width: 100vw;
+    background-color: black;
+}
+
+/********* TIME CONTROL SELECTOR *********/
+
+.time-control {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    width: 20vw;
+    min-width: 266px;
+    margin: auto auto;
+    margin-right: 0;
+}
+
+.time-control-main-div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 50%;
+    width: 100%;
+    margin: 0;
+    background-color: rgba(169, 169, 169, 0.136);
+    border-radius: 10px;
+    border: 4px double gray;
+}
+
+.time-control-header {
+    height: 30%;
+    width: 100%;
+    /*color: #3e8e41;*/
+    color: seagreen;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.time-control h2 {
+    padding: 0 10%;
+    font-size: calc(1em + 1vh);
+}
+
+.time-control-dropdown {
+    height: 70%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.dropdown-button-container {
+    width: 100%;
+    text-align: center;
+}
+
+.time-selector {
+    display: none;
+}
+
+.dropdown-button, .time-selector {
+    appearance: none;
+    background-color: seagreen;
+    border: 1px solid white;
+    border-radius: 15px;
+    box-sizing: border-box;
+    color: white;
+    cursor: pointer;
+    font-family: 'WynfordObliqueLine';
+    font-size: 1em;
+    font-weight: 600;
+    line-height: normal;
+    margin: auto 0;
+    height: 40px;
+    min-width: 0;
+    outline: none;
+    padding: 10px 24px;
+    text-align: center;
+    text-decoration: none;
+    transition: all 300ms cubic-bezier(.23, 1, 0.32, 1);
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    width: 50%;
+    will-change: transform;
+}
+  
+.dropdown-button:hover, .time-selector:hover {
+    color: seagreen;
+    background-color: white;
+    border: 1px solid seagreen;
+    box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+    transform: translateY(-2px);
+}
+  
+.dropdown-button:hover, .time-selector {
+    display: block;
+}
+
+.dropdown-button:active {
+    box-shadow: none;
+    color: #000;
+    transform: translateY(0);
+}
+
+/********* GAME CONTAINER *********/
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    width: 60%;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto;
+}
+
+.board {
+    resize: none;
+}
+
+.chess-board { 
+    border-spacing: 0; 
+    border-collapse: collapse; 
+}
+
+.chess-board th { 
+    padding: .5em; 
+    color: aliceblue;
+}
+            
+.chess-board td { 
+    border: 1px solid; 
+    width: 5em; 
+    height: 5em; 
+}
+
+.chess-board .light { 
+    background: #eee; 
+}
+
+.chess-board .dark { 
+    background-color:seagreen;
+}
+
+/********* FOOTER *********/
+
+.footer-container {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    height: 5%;
+    width: 100%;
+    color: grey;
+    display: flex;
+    flex-direction: row;
+    font-family: Helvetica, sans-serif;
+    font-size: 12px;
+}
+
+.footer-links {
+    height: 100%;
+    width: 50vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-links a {
+    color: grey;
+    text-decoration: none;
+}
+
+.footer-social {
+    height: 100%;
+    width: 50vw;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.footer-social a {
+    margin: 0 2vw;
+}
+
+.footer-instagram-logo, .footer-facebook-logo, .footer-twitter-logo {
+    height: 30px;
+}
+
+/* CSS 
+.dropdown-button {
+  
+}
+
+.dropdown-button:disabled {
+  pointer-events: none;
+}
+
+.dropdown-button:hover {
+  color: #fff;
+  background-color: #1A1A1A;
+  box-shadow: rgba(0, 0, 0, 0.25) 0 8px 15px;
+  transform: translateY(-2px);
+}
+
+.dropdown-button:active {
+  box-shadow: none;
+  transform: translateY(0);
+}
+
+*/

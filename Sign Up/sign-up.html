@@ -1,0 +1,45 @@
+<DOCTYPE html>
+<html lang="en"></html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="sign-up-styles.css">
+    <title>Registrate - USChess</title>
+</head>
+<body>
+    <div class="main-container">
+        <div class="form-header">
+            <div class="logo-container">
+                <a href="#"><img src="images/USChess.jpeg" alt="USChess logo"></a>
+            </div>
+            <div class="text-container">
+                <a href="#"><p>USChess</p></a>
+            </div>
+        </div>
+        <div class="form-container">
+            <form action="">
+                <fieldset class="fldst1">
+                    <label for="first-name">Nombre<input id="first-name" type="text" name="first-name" required></label>
+                    <label for="last-name">Apellidos<input id="last-name" type="text" name="last-name" required></label>
+                    <label for="username">Usuario<input id="username" type="text" pattern="/^[a-z\d]+$/i" name="username" required></label>
+                    <label for="email">Correo Electrónico<input id="email" type="text" name="email" placeholder=" ejemplo@ejemplo.com" required></label>
+                    <label for="password">Contraseña<input id="password" type="password" pattern="[a-z0-9]{8,}" name="password" placeholder=" Debe contener al menos 8 letras y números" required></label>
+                </fieldset>
+                <fieldset class="fldst2">
+                    <p>Selecciona tu nivel inicial:</p>
+                    <label for="beginner">Principiante<input id="beginner" type="radio" name="level" checked></label>
+                    <label for="intermediate">Intermedio<input id="intermediate" type="radio" name="level"></label>
+                    <label for="advanced">Avanzado<input id="advanced" type="radio" name="level"></label>
+                    <label for=""></label>
+                </fieldset>
+                <fieldset class="fldst3">
+                    <label for="terms-and-conditions">
+                        <input id="terms-and-conditions" type="checkbox" name="terms-and-conditions" required>Acepto los <a href="#">términos y condiciones</a>
+                    </label>
+                </fieldset>
+                <div class="submit-button-container">
+                    <button class="submit-button" disabled="disabled" type="submit">Registrarse</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</body>
