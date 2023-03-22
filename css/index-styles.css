@@ -202,3 +202,20 @@ body {
 .buttons-row img {
     height: 100%;
 }
+
+.games-registry-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.game-registry-table {
+    font-size: 10px;
+    color: white;
+    border: solid 2px white;
+}
+
+.game-registry-table .table-header th {
+    border: solid 2px white;
+}
