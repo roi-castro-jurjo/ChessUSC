@@ -142,11 +142,11 @@ body {
 }
 
 .chess-board{
-    width: 700px;
-    height: 700px;
+    width: 600px;
+    height: 600px;
     display: grid;
-    grid-template-rows: repeat(8, calc(700px / 8));
-    grid-template-columns: repeat(8, calc(700px / 8));
+    grid-template-rows: repeat(8, calc(600px / 8));
+    grid-template-columns: repeat(8, calc(600px / 8));
     margin: 35px 0;
     border: 2px double white;
 }

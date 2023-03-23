@@ -5,7 +5,7 @@ let turn = "white"              //variable de turno
 let pieceSelection = null       //pieza selccionada
 let boxSelection = null         //casilla a donde mover la pieza
 
-let possibleMovesStyles = []
+let possibleMovesStyles = []    //informacion de los movimientos posibles
 let possibleMoves = []
 
 let lastMove = null             //informacion del ultimo movimiento efectuado
@@ -19,20 +19,18 @@ function displayChessPieces() {
     lightPieces.forEach(piece => {
         let box = document.getElementById(piece.position)
 
-        box.innerHTML += `
-            <div class="piece light" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
+        box.innerHTML += 
+            `<div class="piece light" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
                 <img src="${piece.icon}" alt="Chess Piece" >
-            </div>
-        `
+            </div>`
     })
     blackPieces.forEach(piece => {
         let box = document.getElementById(piece.position)
 
-        box.innerHTML += `
-            <div class="piece black" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
+        box.innerHTML += 
+        `<div class="piece black" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
                 <img src="${piece.icon}" alt="Chess Piece" >
-            </div>
-        `
+            </div>`
     })
     boxListener()
 }
@@ -47,7 +45,7 @@ function boxClicked(e) {
     let element = e.target.closest(".box")
     if ((clicked == 0) && element.hasChildNodes()) {
         if ((firstSelection = selectPiece(element, turn)) != null) {
-            possibleMoves = getMoves(element)
+            getMoves(element)
             highlightPossibleMoves()
             clicked = 1
         }
@@ -60,7 +58,7 @@ function boxClicked(e) {
         }
         if (element.hasChildNodes() && element.children[0].dataset.color == turn) {
             firstSelection = selectPiece(element, turn)
-            possibleMoves = getMoves(element)
+            getMoves(element)
             highlightPossibleMoves()
         } else {
             clicked = 0
@@ -113,8 +111,18 @@ function move(position1, position2) {
 function getMoves(box) {
     let piece = box.children[0].dataset.piece
     if (piece == "pawn"){
-         return getPawnMoves(box.id, box.children[0].dataset.color)
-    } 
+         getPawnMoves(box.id, box.children[0].dataset.color)
+    } if (piece == "bishop"){
+        possibleMoves = []
+    } if (piece == "knight"){
+        possibleMoves = []
+    } if (piece == "rook"){
+        possibleMoves = []
+    } if (piece == "queen"){
+        possibleMoves = []
+    } if (piece == "king"){
+        possibleMoves = []
+    }
 }
 
 //funcion que devuelve los posibles movimientos de un peon
@@ -126,25 +134,47 @@ function getPawnMoves(position, color) {
     if (color == "white") {
         let nextY = parseInt(y) + 1
         let nextY2 = parseInt(y) + 2
-        if (y < 8 && !document.getElementById(x.concat('-', nextY)).hasChildNodes()) {
-            if (y == 2 && !document.getElementById(x.concat('-', nextY2)).hasChildNodes()){
+        if (y < 8) {
+            if (!document.getElementById(x.concat('-', nextY)).hasChildNodes()){
+                if (y == 2 && !document.getElementById(x.concat('-', nextY2)).hasChildNodes()){
                 possibleMoves.push(x.concat('-', nextY2))
             }
             possibleMoves.push(x.concat('-', nextY))
-        } 
+            }
+
+            getPawnCaptures(nextY, x)
+            
+        }
     } else {
         let nextY = parseInt(y) - 1
         let nextY2 = parseInt(y) - 2
-        if (y > 1 && !document.getElementById(x.concat('-', nextY)).hasChildNodes()) {
-            if (y == 7 && !document.getElementById(x.concat('-', nextY2)).hasChildNodes()){
+        if (y > 1 ) {
+
+            if (!document.getElementById(x.concat('-', nextY)).hasChildNodes()) {
+                if (y == 7 && !document.getElementById(x.concat('-', nextY2)).hasChildNodes()){
                 possibleMoves.push(x.concat('-', nextY2))
             }
             possibleMoves.push(x.concat('-', nextY))
+            }
+
+            getPawnCaptures(nextY, x)
+            
         }
     }
-    return possibleMoves
 }
 
+//funcion que devuelve las posibles capturas de un peon
+function getPawnCaptures(nextY, x){
+    if (x < 'H' && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).hasChildNodes() && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).children[0].dataset.color != turn){
+        possibleMoves.push(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY))
+    }
+
+    if (x > 'A' && document.getElementById(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY)).hasChildNodes() && document.getElementById(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY)).children[0].dataset.color != turn){
+        possibleMoves.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
+    }
+}
+
+//funcion que destaca los movimientos posibles
 function highlightPossibleMoves() {
     if (possibleMoves != []) {
         possibleMoves.forEach(move => {
@@ -154,6 +184,7 @@ function highlightPossibleMoves() {
     }
 }
 
+//funcion que devuelve las casillas de los movimientos posibles a sus colores originales
 function unHighlightPossibleMoves() {
     possibleMoves.forEach(move => {
         document.getElementById(move).style.backgroundColor = possibleMovesStyles.shift()
