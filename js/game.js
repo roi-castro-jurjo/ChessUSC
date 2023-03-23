@@ -58,15 +58,43 @@ function boxClicked(e) {
             getMoves(element)
             highlightPossibleMoves()
         } else {
-            clicked = 0
-            move(firstSelection,element.id)
-            if (lastMove != null) {
-                unHighlight(lastMove)
+
+
+            //FORMA PROVISIONAL DE ASEGURARSE DE QUE LOS PEONES SOLO SE MUEVAN A LAS CASILLAS QUE ES LEGAL QUE SE MUEVAN
+            if (document.getElementById(firstSelection).children[0].dataset.piece == "pawn"){
+                if (possibleMoves.includes(element.id)){
+                    clicked = 0
+                     move(firstSelection,element.id)
+
+                    if (lastMove != null) {
+                        unHighlight(lastMove)
+                    }
+
+                    saveLastMove(firstSelection, element.id)
+                    endTurn()
+                    highlightLastMove(lastMove)
+
+                } else {
+                    clicked = 0
+                    return
+                }
+
+                
+            } else { //CODIGO QUE SE APLICA A LAS DEMAS PIEZAS QUE NO SEAN PEONES PARA QUE PUEDAN MOVERSE A CUALQUIER CASILLA EN FALTA DE IMPLEMENTAR LA FUNCIÓN DE MOVIMIENTOS POSIBLES DEL RESTO DE PIEZAS
+                clicked = 0
+                move(firstSelection,element.id)
+
+                if (lastMove != null) {
+                    unHighlight(lastMove)
+                }
+
+                saveLastMove(firstSelection, element.id)
+                endTurn()
+                highlightLastMove(lastMove)
             }
-            saveLastMove(firstSelection, element.id)
-            endTurn()
-            highlightLastMove(lastMove)
         }
+
+
     }
 }
 
@@ -173,6 +201,33 @@ function getPawnCaptures(nextY, x){
         possibleMoves.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
     }
 }
+
+
+function getBishopMoves(position, color){
+
+}
+
+
+function getKnightMoves(position, color){
+
+}
+
+
+function getRookMoves(position, color){
+
+}
+
+
+function getQueenMoves(position, color){
+
+}
+
+
+function getKingMoves(position, color){
+
+}
+
+
 
 //funcion que destaca los movimientos posibles
 function highlightPossibleMoves() {
