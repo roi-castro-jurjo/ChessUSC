@@ -77,6 +77,7 @@ function boxClicked(e) {
                     clicked = 0
                     return
                 }
+
             } else { //CODIGO QUE SE APLICA A LAS DEMAS PIEZAS QUE NO SEAN PEONES PARA QUE PUEDAN MOVERSE A CUALQUIER CASILLA EN FALTA DE IMPLEMENTAR LA FUNCIÓN DE MOVIMIENTOS POSIBLES DEL RESTO DE PIEZAS
                 clicked = 0
                 move(firstSelection,element.id)
