@@ -32,6 +32,7 @@ function displayChessPieces() {
                 <img src="${piece.icon}" alt="Chess Piece" >
             </div>`
     })
+    //se añade el listener a todas las casillas
     boxListener()
 }
 
@@ -58,8 +59,6 @@ function boxClicked(e) {
             getMoves(element)
             highlightPossibleMoves()
         } else {
-
-
             //FORMA PROVISIONAL DE ASEGURARSE DE QUE LOS PEONES SOLO SE MUEVAN A LAS CASILLAS QUE ES LEGAL QUE SE MUEVAN
             if (document.getElementById(firstSelection).children[0].dataset.piece == "pawn"){
                 if (possibleMoves.includes(element.id)){
@@ -92,8 +91,6 @@ function boxClicked(e) {
                 highlightLastMove(lastMove)
             }
         }
-
-
     }
 }
 
@@ -132,6 +129,8 @@ function saveLastMove(position1, position2) {
 function move(position1, position2) {
     document.getElementById(position2).innerHTML = document.getElementById(position1).innerHTML
     document.getElementById(position1).innerHTML = ""
+    var audio = new Audio('images/move-Self.mp3');
+    audio.play()
 }
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
@@ -139,15 +138,15 @@ function getMoves(box) {
     let piece = box.children[0].dataset.piece
     if (piece == "pawn"){
          getPawnMoves(box.id, box.children[0].dataset.color)
-    } if (piece == "bishop"){
+    }else if (piece == "bishop"){
         possibleMoves = []
-    } if (piece == "knight"){
+    }else if (piece == "knight"){
         possibleMoves = []
-    } if (piece == "rook"){
+    }else if (piece == "rook"){
         possibleMoves = []
-    } if (piece == "queen"){
+    }else if (piece == "queen"){
         possibleMoves = []
-    } if (piece == "king"){
+    }else if (piece == "king"){
         possibleMoves = []
     }
 }
