@@ -20,9 +20,9 @@
                 <fieldset class="fldst1">
                     <label for="first-name">Nombre<input id="first-name" type="text" name="first-name" required></label>
                     <label for="last-name">Apellidos<input id="last-name" type="text" name="last-name" required></label>
-                    <label for="username">Usuario<input id="username" type="text" pattern="/^[a-z\d]+$/i" name="username" required></label>
+                    <label for="username">Usuario<input id="username" type="text"  name="username" required></label>
                     <label for="email">Correo Electrónico<input id="email" type="text" name="email" placeholder=" ejemplo@ejemplo.com" required></label>
-                    <label for="password">Contraseña<input id="password" type="password" pattern="[a-z0-9]{8,}" name="password" placeholder=" Debe contener al menos 8 letras y números" required></label>
+                    <label for="password">Contraseña<input id="password" type="password" minlength="8" maxlength="50" name="password" placeholder=" Debe contener al menos 8 letras y números" required></label>
                 </fieldset>
                 <fieldset class="fldst2">
                     <p>Selecciona tu nivel inicial:</p>
@@ -37,9 +37,12 @@
                     </label>
                 </fieldset>
                 <div class="submit-button-container">
-                    <button class="submit-button" disabled="disabled" type="submit">Registrarse</button>
+                    <button class="submit-button" type="submit">Registrarse</button>
                 </div>
             </form>
         </div>
     </div>
 </body>
+
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="js/form.js"></script>
