@@ -63,7 +63,7 @@ function boxClicked(e) {
             if (document.getElementById(firstSelection).children[0].dataset.piece == "pawn"){
                 if (possibleMoves.includes(element.id)){
                     clicked = 0
-                     move(firstSelection,element.id)
+                    move(firstSelection,element.id)
 
                     if (lastMove != null) {
                         unHighlight(lastMove)
