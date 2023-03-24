@@ -8,5 +8,6 @@ $('.submit-button').on('click', function() {
     if (pswd.length < 8 || pswd.length > 50) {
         alert("Invalid password");
     }
+    var formData = new FormData(document.querySelector('form'))
+    
 });
-
