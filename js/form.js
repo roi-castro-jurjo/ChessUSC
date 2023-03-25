@@ -1,5 +1,3 @@
-import axios from 'axios';
-
 $('.submit-button').on('click', function() {
     let username = $('#username').val()
     let pswd = $('#password').val()
@@ -28,3 +26,4 @@ const formRecolector = (elements) =>
     },
     {}
 );
+
