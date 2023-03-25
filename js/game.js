@@ -12,11 +12,11 @@ let lastMove = null             //informacion del ultimo movimiento efectuado
 let lastMoveStyles = null
 
 //funcion que carga las piezas en sus casillas iniciales en el tablero
-function displayChessPieces() {
+function displayChessPieces(piecesObject) {
     boxes.forEach(box => {
         box.innerHTML = ""
     })
-    lightPieces.forEach(piece => {
+    piecesObject.pieces.lightpieces.forEach(piece => {
         let box = document.getElementById(piece.position)
 
         box.innerHTML += 
@@ -24,7 +24,7 @@ function displayChessPieces() {
                 <img src="${piece.icon}" alt="Chess Piece" >
             </div>`
     })
-    blackPieces.forEach(piece => {
+    piecesObject.pieces.blackpieces.forEach(piece => {
         let box = document.getElementById(piece.position)
 
         box.innerHTML += 
@@ -34,6 +34,13 @@ function displayChessPieces() {
     })
     //se añade el listener a todas las casillas
     boxListener()
+}
+
+//funcion que accede al fichero json con la definicion de las piezas
+async function loadPieces(){
+    const response = await fetch('../json/pieces.json');
+    const data = await response.json();
+    displayChessPieces(data)
 }
 
 //listener de clicks en las casillas
@@ -259,4 +266,4 @@ function unHighlight(lastMove) {
     document.getElementById(lastMove.position2).style.backgroundColor = lastMoveStyles.previousSecondPositionStyle
 }
 
-displayChessPieces()
+loadPieces()
