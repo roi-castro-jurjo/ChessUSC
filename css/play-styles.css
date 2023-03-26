@@ -158,7 +158,6 @@ body {
     justify-content: center;
     align-items: center;
     background: white;
-    position: relative;
 }
 
 
@@ -189,9 +188,7 @@ body {
 
 .display-position-left::before{
     position: absolute;
-    top: 50%;
-    left: -25%;
-    transform: translateY(-50%);
+     transform: translateX(-60px);
     color: white;
     font-size: 1rem;
     font-weight: 300;
@@ -232,9 +229,7 @@ body {
 .display-position-bottom::after{
     content: 'a';
     position: absolute;
-    left: 50%;
-    bottom: -35%;
-    transform: translateX(-50%);
+    transform: translateY(60px);
     color: white;
     font-size: 1rem;
     font-weight: 300;

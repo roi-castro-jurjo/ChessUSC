@@ -143,7 +143,7 @@ function move(position1, position2) {
     document.getElementById(position2).children[0].children[0].style.left = 0
     document.getElementById(position2).children[0].children[0].style.position = "relative";
     var audio = new Audio('images/move-Self.mp3');
-    //audio.play()
+    audio.play()
 }
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
