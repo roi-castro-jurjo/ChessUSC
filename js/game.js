@@ -5,6 +5,8 @@ let turn = "white"              //variable de turno
 let pieceSelection = null       //pieza selccionada
 let boxSelection = null         //casilla a donde mover la pieza
 
+let elementPos = null
+
 let possibleMovesStyles = []    //informacion de los movimientos posibles
 let possibleMoves = []
 
@@ -55,6 +57,7 @@ function boxClicked(e) {
         if ((firstSelection = selectPiece(element, turn)) != null) {
             getMoves(element)
             highlightPossibleMoves()
+            //element.children[0].children[0].style.position = "absolute"
             clicked = 1
         }
     } else if((clicked == 1) && (firstSelection != element.id)){
@@ -70,16 +73,15 @@ function boxClicked(e) {
             if (document.getElementById(firstSelection).children[0].dataset.piece == "pawn"){
                 if (possibleMoves.includes(element.id)){
                     clicked = 0
-                    move(firstSelection,element.id)
-
+                    firstBox = document.getElementById(firstSelection)
+                    firstBox.children[0].children[0].style.position = "absolute";
+                    moveAnimation(firstBox, element)
                     if (lastMove != null) {
                         unHighlight(lastMove)
                     }
-
                     saveLastMove(firstSelection, element.id)
                     endTurn()
                     highlightLastMove(lastMove)
-
                 } else {
                     clicked = 0
                     return
@@ -87,8 +89,9 @@ function boxClicked(e) {
 
             } else { //CODIGO QUE SE APLICA A LAS DEMAS PIEZAS QUE NO SEAN PEONES PARA QUE PUEDAN MOVERSE A CUALQUIER CASILLA EN FALTA DE IMPLEMENTAR LA FUNCIÓN DE MOVIMIENTOS POSIBLES DEL RESTO DE PIEZAS
                 clicked = 0
-                move(firstSelection,element.id)
-
+                firstBox = document.getElementById(firstSelection)
+                firstBox.children[0].children[0].style.position = "absolute";
+                moveAnimation(firstBox, element)
                 if (lastMove != null) {
                     unHighlight(lastMove)
                 }
@@ -136,8 +139,11 @@ function saveLastMove(position1, position2) {
 function move(position1, position2) {
     document.getElementById(position2).innerHTML = document.getElementById(position1).innerHTML
     document.getElementById(position1).innerHTML = ""
+    document.getElementById(position2).children[0].children[0].style.top = 0
+    document.getElementById(position2).children[0].children[0].style.left = 0
+    document.getElementById(position2).children[0].children[0].style.position = "relative";
     var audio = new Audio('images/move-Self.mp3');
-    audio.play()
+    //audio.play()
 }
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
@@ -207,33 +213,6 @@ function getPawnCaptures(nextY, x){
     }
 }
 
-
-function getBishopMoves(position, color){
-
-}
-
-
-function getKnightMoves(position, color){
-
-}
-
-
-function getRookMoves(position, color){
-
-}
-
-
-function getQueenMoves(position, color){
-
-}
-
-
-function getKingMoves(position, color){
-
-}
-
-
-
 //funcion que destaca los movimientos posibles
 function highlightPossibleMoves() {
     if (possibleMoves != []) {
@@ -264,6 +243,59 @@ function highlightLastMove(lastMove) {
 function unHighlight(lastMove) {
     document.getElementById(lastMove.position1).style.backgroundColor = lastMoveStyles.previousFirstPositionStyle
     document.getElementById(lastMove.position2).style.backgroundColor = lastMoveStyles.previousSecondPositionStyle
+}
+
+function moveAnimation(firstBox, secondBox) {
+    var id = null;
+    var posX = 0
+    var posY = 0
+    first = firstBox.children[0].children[0]
+    firstBoxPos = firstBox.getBoundingClientRect();
+    secondBoxPos = secondBox.getBoundingClientRect();
+    topDiff = secondBoxPos.top - firstBoxPos.top
+    leftDiff = secondBoxPos.left - firstBoxPos.left
+    console.log(topDiff)
+    clearInterval(id);
+    id = setInterval(frame, 0);
+    let Ydone = 0
+    let Xdone = 0
+    function frame() {
+        if (topDiff < 0 && !Ydone) {
+            if (posY <= topDiff){
+                Ydone = 1
+            }
+            posY = posY + (topDiff / 20)
+            first.style.top = posY + 'px'
+        } else if (topDiff > 0 && !Ydone) {
+            if (posY >= topDiff){
+                Ydone = 1
+            }
+            posY = posY + (topDiff / 20)
+            first.style.top = posY + 'px'
+        } else if (topDiff == 0) {
+            Ydone = 1
+        }
+        if (leftDiff < 0 && !Xdone) {
+            if (posX <= leftDiff){
+                Xdone = 1
+            }
+            posX = posX + (leftDiff / 20)
+            first.style.left = posX + 'px'
+        } else if (leftDiff > 0 && !Xdone) {
+            if (posX >= leftDiff){
+                Xdone = 1
+            }
+            posX = posX + (leftDiff / 20)
+            first.style.left = posX + 'px'
+        } else if (leftDiff == 0) {
+            Xdone = 1
+        }
+
+        if (Ydone && Xdone){
+            clearInterval(id)
+            move(firstBox.id, secondBox.id)
+        }
+    } 
 }
 
 loadPieces()

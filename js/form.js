@@ -14,7 +14,6 @@ $('.submit-button').on('click', function() {
     let data = formRecolector(form.elements);
     const dataContainer = document.getElementsByClassName('form-prueba');
     dataContainer.textContent = JSON.stringify(data, null, '  ');
-
 });
 
 //funcion que recoge la informacion de los elementos del Form
