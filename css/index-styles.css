@@ -102,25 +102,53 @@ body {
     height: 10vw;
     width: 10vw;
     margin: auto 0;
+    font-size: x-large;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5%;
+    background-color: white;
+}
+
+.buttons-row button:hover {
+    transform: scale(1.1);
+    transition: transform 0.3s;
 }
 
 .buttons-row img {
-    height: 100%;
+    height: 50%;
+    margin-top: 10px;
+    margin-bottom: 20px;
 }
 
 .games-registry-container {
     width: 100%;
+    margin: 50px auto;
     display: flex;
     flex-direction: column;
     color: white;
+    padding-left: 4.3vw;
 }
 
 .game-registry-table {
+    width: 91%;
     font-size: 10px;
     color: white;
     border: solid 2px white;
+    text-align: center;
 }
 
 .game-registry-table .table-header th {
     border: solid 2px white;
+    height: 50px;
+}
+
+tbody tr:hover {
+    background-color: grey;
+}
+
+tr, td {
+    border: 2px solid white;
+    height: 40px;
 }
