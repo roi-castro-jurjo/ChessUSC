@@ -30,18 +30,34 @@ function loadTable() {
                 td.appendChild(document.createTextNode(games[i].children[j].textContent))
                 td.appendChild(document.createElement('br'))
                 td.appendChild(document.createTextNode(games[i].children[j+1].textContent))
-                if (td.childNodes[0].textContent == '1') {
-                    td.style.backgroundColor = 'green'
-                } else {
-                    td.style.backgroundColor = 'red'
-                }
-                td.style.filter = 'brightness(70%)'
                 j++
             } else {
                 td.appendChild(document.createTextNode(games[i].children[j].textContent))
             }
         }
     }
+    tableStyle()
 }
 
-
+function tableStyle() {
+    let rows = document.getElementsByTagName('tr')
+    for (let i = 0; i < rows.length - 1; i++) {
+        if (rows[i+1].childNodes[2].childNodes[0].textContent == '1') {
+            rows[i+1].onmouseover = function() {
+                this.style.backgroundColor = 'green'
+                this.style.filter = 'brightness(80%)'
+            }
+            rows[i+1].onmouseleave = function() {
+                this.style.backgroundColor = 'black'
+            }
+        } else {
+            rows[i+1].onmouseover = function() {
+                this.style.backgroundColor = 'red'
+                this.style.filter = 'brightness(80%)'
+            }
+            rows[i+1].onmouseleave = function() {
+                this.style.backgroundColor = 'black'
+            }
+        }
+    }
+}
