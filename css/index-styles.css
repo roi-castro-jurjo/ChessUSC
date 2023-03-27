@@ -109,6 +109,7 @@ body {
     align-items: center;
     border-radius: 5%;
     background-color: white;
+    transition: all 0.3s;
 }
 
 .buttons-row button:hover {

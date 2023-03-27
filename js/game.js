@@ -149,6 +149,10 @@ function move(position1, position2) {
     document.getElementById(position2).children[0].children[0].style.left = 0
     document.getElementById(position2).children[0].children[0].style.position = "relative";
     
+    if(!playing){
+        startTimer()
+    }
+
 }
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
@@ -260,7 +264,6 @@ function moveAnimation(firstBox, secondBox) {
     secondBoxPos = secondBox.getBoundingClientRect();
     topDiff = secondBoxPos.top - firstBoxPos.top
     leftDiff = secondBoxPos.left - firstBoxPos.left
-    console.log(topDiff)
     clearInterval(id);
     id = setInterval(frame, 0);
     let Ydone = 0
@@ -305,3 +308,59 @@ function moveAnimation(firstBox, secondBox) {
 }
 
 loadPieces()
+
+
+/************************************************** TIMER ********************************* */
+
+let playing = false;
+
+const addZero = (number) => {
+    if (number < 10) {
+        return '0' + number;
+    }
+    return number;
+}
+
+const startTimer = () => {
+    playing = true;
+    let clock1_secs = 60;
+    let clock2_secs = 60;
+
+    let timerId = setInterval(function() {
+        if (turn == "black") {
+            if (playing) {
+                clock1_mins = parseInt(document.getElementById("min1").textContent);
+                if (clock1_secs == 60) {
+                    clock1_mins = clock1_mins - 1;
+                }
+                clock1_secs = clock1_secs - 1;
+                document.getElementById('sec1').textContent = addZero(clock1_secs);
+                document.getElementById('min1').textContent = addZero(clock1_mins);
+                if (clock1_secs == 0) {
+                    if (clock1_secs == 0 && clock1_mins == 0) {
+                        clearInterval(timerId);
+                        playing = false;
+                    }
+                    clock1_secs = 60;
+                }
+            }
+        } else {
+            if (playing) {
+                clock2_mins = parseInt(document.getElementById("min2").textContent);
+                if (clock2_secs == 60) {
+                    clock2_mins = clock2_mins - 1;
+                }
+                clock2_secs = clock2_secs - 1;
+                document.getElementById('sec2').textContent = addZero(clock2_secs);
+                document.getElementById('min2').textContent = addZero(clock2_mins);
+                if (clock2_secs == 0) {
+                    if (clock2_secs == 0 && clock2_mins == 0) {
+                        clearInterval(timerId);
+                        playing = false;
+                    }
+                    clock2_secs = 60;
+                }
+            }
+        }
+    }, 1000);
+}
