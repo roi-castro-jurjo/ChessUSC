@@ -188,7 +188,7 @@ body {
 
 .display-position-left::before{
     position: absolute;
-     transform: translateX(-60px);
+    transform: translateX(-60px);
     color: white;
     font-size: 1rem;
     font-weight: 300;
