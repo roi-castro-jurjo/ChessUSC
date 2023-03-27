@@ -321,6 +321,10 @@ const addZero = (number) => {
     return number;
 }
 
+let time = localStorage.getItem("time")
+document.getElementById('min1').textContent = addZero(time);
+document.getElementById('min2').textContent = addZero(time);
+
 const startTimer = () => {
     playing = true;
     let clock1_secs = 60;
