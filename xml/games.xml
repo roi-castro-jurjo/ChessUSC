@@ -2,37 +2,42 @@
 <historial>
     <partida>
         <tipo>Rapida</tipo>
-        <jugador1>Aaron Blanco Lopez</jugador1>
-        <jugador2>Roi Castro Jurjo</jugador2>
-        <resultado>1</resultado>
+        <jugador1>Roi Castro Jurjo</jugador1>
+        <jugador2>Aaron Blanco Lopez</jugador2>
+        <resultado1>0</resultado1>
+        <resultado2>1</resultado2>
         <fecha>12 ene. 2023</fecha>
     </partida>
     <partida>
         <tipo>Rapida</tipo>
-        <jugador1>Adriana Villar Hernandez</jugador1>
-        <jugador2>Roi Castro Jurjo</jugador2>
-        <resultado>2</resultado>
+        <jugador1>Roi Castro Jurjo</jugador1>
+        <jugador2>Adriana Villar Hernandez</jugador2>
+        <resultado1>1</resultado1>
+        <resultado2>0</resultado2>
         <fecha>13 ene. 2023</fecha>
     </partida>
     <partida>
         <tipo>Blitz</tipo>
-        <jugador1>Aaron Blanco Lopez</jugador1>
-        <jugador2>Roi Castro Jurjo</jugador2>
-        <resultado>1</resultado>
+        <jugador1>Roi Castro Jurjo</jugador1>
+        <jugador2>Aaron Blanco Lopez</jugador2>
+        <resultado1>1</resultado1>
+        <resultado2>0</resultado2>
         <fecha>13 ene. 2023</fecha>
     </partida>
     <partida>
         <tipo>Bullet</tipo>
-        <jugador1>Paula Hernandez</jugador1>
-        <jugador2>Roi Castro Jurjo</jugador2>
-        <resultado>1</resultado>
+        <jugador1>Roi Castro Jurjo</jugador1>
+        <jugador2>Paula Hernandez</jugador2>
+        <resultado1>0</resultado1>
+        <resultado2>1</resultado2>
         <fecha>14 ene. 2023</fecha>
     </partida>
     <partida>
         <tipo>Blitz</tipo>
-        <jugador1>Pepe Dominguez</jugador1>
-        <jugador2>Roi Castro Jurjo</jugador2>
-        <resultado>2</resultado>
+        <jugador1>Roi Castro Jurjo</jugador1>
+        <jugador2>Pepe Rodriguez</jugador2>
+        <resultado1>0</resultado1>
+        <resultado2>1</resultado2>
         <fecha>15 ene. 2023</fecha>
     </partida>
 </historial>
