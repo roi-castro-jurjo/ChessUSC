@@ -250,6 +250,7 @@ function unHighlight(lastMove) {
     document.getElementById(lastMove.position2).style.backgroundColor = lastMoveStyles.previousSecondPositionStyle
 }
 
+//funcion para la animacion de movimiento de las piezas
 function moveAnimation(firstBox, secondBox) {
     var id = null;
     var posX = 0

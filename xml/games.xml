@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<historial>
+    <partida>
+        <tipo>Rapida</tipo>
+        <jugador1>Aaron Blanco Lopez</jugador1>
+        <jugador2>Roi Castro Jurjo</jugador2>
+        <resultado>1</resultado>
+        <fecha>12 ene. 2023</fecha>
+    </partida>
+    <partida>
+        <tipo>Rapida</tipo>
+        <jugador1>Adriana Villar Hernandez</jugador1>
+        <jugador2>Roi Castro Jurjo</jugador2>
+        <resultado>2</resultado>
+        <fecha>13 ene. 2023</fecha>
+    </partida>
+    <partida>
+        <tipo>Blitz</tipo>
+        <jugador1>Aaron Blanco Lopez</jugador1>
+        <jugador2>Roi Castro Jurjo</jugador2>
+        <resultado>1</resultado>
+        <fecha>13 ene. 2023</fecha>
+    </partida>
+    <partida>
+        <tipo>Bullet</tipo>
+        <jugador1>Paula Hernandez</jugador1>
+        <jugador2>Roi Castro Jurjo</jugador2>
+        <resultado>1</resultado>
+        <fecha>14 ene. 2023</fecha>
+    </partida>
+    <partida>
+        <tipo>Blitz</tipo>
+        <jugador1>Pepe Dominguez</jugador1>
+        <jugador2>Roi Castro Jurjo</jugador2>
+        <resultado>2</resultado>
+        <fecha>15 ene. 2023</fecha>
+    </partida>
+</historial>

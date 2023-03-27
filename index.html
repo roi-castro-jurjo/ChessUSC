@@ -9,7 +9,7 @@
         <link rel="stylesheet" href="css/index-styles.css">
         <title>USChess</title>
     </head>
-    <body>
+    <body onload="loadTable()">
         <div id="header" style ="min-height: 105px;"></div>
 
         <div class="main-container">
@@ -30,16 +30,16 @@
                     </div>
                     <div class="play-buttons">
                         <div class="buttons-row">
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/balita.png" alt="">1 min</button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/balita.png" alt="">1 | 2</button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/rayito.png" alt="">3 min</button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/rayito.png" alt="">3 | 2</button>
                         </div>
                         <div class="buttons-row">
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
-                            <button> <img src="images/button-placeholder.jpeg" alt=""></button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/relojito.png" alt="">10 min</button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/relojito.png" alt="">15 | 10</button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/solito.png" style="height: 54%;" alt="">1 día</button>
+                            <button onclick="window.location.href='play.html'"> <img src="images/solito.png" style="height: 54%;" alt="">7 días</button>
                         </div>
                     </div>
                     <div class="games-registry-container">
@@ -54,15 +54,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td></td>
-                                    <td>
-                                        AaronBlanco<br>
-                                        RoiCastro
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
+                                
                             </tbody>
                         </table>
                     </div>
@@ -79,7 +71,7 @@
                 </div>
             </div>
         </div>
-
-        <script src="js/head_loader.js"></script>
     </body>
-    </html>
+    <script src="js/registry.js"></script>
+    <script src="js/head_loader.js"></script>
+</html>

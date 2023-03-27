@@ -1,4 +1,5 @@
-$('.submit-button').on('click', function() {
+var submitButton = document.getElementsByClassName('submit-button')
+$(submitButton).on('click', function() {
     let username = $('#username').val()
     let pswd = $('#password').val()
     let usernameRegEX = /^[a-zA-Z0-9_]{5,20}$/g
@@ -14,6 +15,7 @@ $('.submit-button').on('click', function() {
     let data = formRecolector(form.elements);
     const dataContainer = document.getElementsByClassName('form-prueba');
     dataContainer.textContent = JSON.stringify(data, null, '  ');
+    console.log(dataContainer.textContent)
 });
 
 //funcion que recoge la informacion de los elementos del Form
