@@ -13,7 +13,6 @@ function loadFile(filePath) {
 }
 
 xmlContent = loadFile(path)
-console.log(typeof xmlContent)
 
 function loadTable() {
     let games = xmlContent.getElementsByTagName("partida")
