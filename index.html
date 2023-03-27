@@ -30,16 +30,16 @@
                     </div>
                     <div class="play-buttons">
                         <div class="buttons-row">
-                            <button onclick="window.location.href='play.html'" value="1"> <img src="images/balita.png" alt="" >1 min</button>
-                            <button onclick="window.location.href='play.html'" value="1"> <img src="images/balita.png" alt="">1 | 2</button>
-                            <button onclick="window.location.href='play.html'" value="3"> <img src="images/rayito.png" alt="">3 min</button>
-                            <button onclick="window.location.href='play.html'" value="3"> <img src="images/rayito.png" alt="">3 | 2</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="1"> <img src="images/balita.png" alt="" >1 min</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="1"> <img src="images/balita.png" alt="">1 | 2</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="3"> <img src="images/rayito.png" alt="">3 min</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="3"> <img src="images/rayito.png" alt="">3 | 2</button>
                         </div>
                         <div class="buttons-row">
-                            <button onclick="window.location.href='play.html'" value="10"> <img src="images/relojito.png" alt="">10 min</button>
-                            <button onclick="window.location.href='play.html'" value="15"> <img src="images/relojito.png" alt="">15 | 10</button>
-                            <button onclick="window.location.href='play.html'"> <img src="images/solito.png" style="height: 54%;" alt="">1 día</button>
-                            <button onclick="window.location.href='play.html'"> <img src="images/solito.png" style="height: 54%;" alt="">7 días</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="10"> <img src="images/relojito.png" alt="">10 min</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="15"> <img src="images/relojito.png" alt="">15 | 10</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="1440"> <img src="images/solito.png" style="height: 54%;" alt="">1 día</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="10080"> <img src="images/solito.png" style="height: 54%;" alt="">7 días</button>
                         </div>
                     </div>
                     <div class="games-registry-container">
@@ -71,6 +71,19 @@
             </div>
         </div>
     </body>
+
+    <script>
+
+        let buttons = document.querySelectorAll("button")
+
+        buttons.forEach(button => {
+            button.addEventListener("click", function(){
+                localStorage.setItem("time", button.value)
+            })
+        });
+
+
+    </script>
 
     <script src="js/registry.js"></script>
     <script src="js/head_loader.js"></script>
