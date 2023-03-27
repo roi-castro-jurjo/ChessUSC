@@ -140,12 +140,17 @@ body {
 }
 
 .game-registry-table .table-header th {
-    background-color: darkgrey;
+    background-color: white;
+    color: black;
     font-size: 1.5em;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.15em;
     border: solid 2px white;
     height: 50px;
+    box-shadow: inset 10px black;
+    padding: 10px;
 }
+
+
 
 tbody tr:hover {
     background-color: grey;
