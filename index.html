@@ -79,14 +79,13 @@
 
     <script>
 
-        let buttons = document.querySelectorAll("button")
+        let buttons = document.querySelectorAll(".time-selector-buttons")
 
         buttons.forEach(button => {
             button.addEventListener("click", function(){
                 localStorage.setItem("time", button.value)
             })
         });
-
 
     </script>
 

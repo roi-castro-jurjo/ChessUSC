@@ -219,8 +219,61 @@ function getBishopMoves(position, color){
 //funcion que devuelve los movimientos posibles de una torre
 function getRookMoves(position, color){
     possibleMoves = []
+    let p = position.split('-')
+    let x = p[0]
+    let y = p[1]
+    let x_aux = x
+    let y_aux = parseInt(y)
+
+    while (x_aux < 'H'){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
+        if(getRookCaptures(x_aux, y)){
+            break
+        } else {
+            possibleMoves.push(x_aux + "-" + y)
+        }
+    }
+    x_aux = x
+    while (x_aux > 'A'){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 1)
+
+        if(getRookCaptures(x_aux, y)){
+            break
+        } else {
+            possibleMoves.push(x_aux + "-" + y)
+        }
+        
+    }
+
+
+    while(y_aux < 8){
+        y_aux++
+        if(getRookCaptures(x, y_aux)){
+            break
+        } else {
+            possibleMoves.push(x + "-" + y_aux)
+        }
+    }
+    y_aux = parseInt(y)
+    while(y_aux > 1){
+        y_aux--
+        if(getRookCaptures(x, y_aux)){
+            break
+        } else {
+            possibleMoves.push(x + "-" + y_aux)
+        }
+    }
 }
 
+
+function getRookCaptures(x, y){
+    if(document.getElementById(x + "-" + y).hasChildNodes()){
+        if(document.getElementById(x + "-" + y).children[0].dataset.color != turn){
+            possibleMoves.push(x + "-" + y)
+        }
+        return 1
+    }
+}
 
 //funcion que devuelve los movimientos posibles de un caballo
 function getKnightMoves(position, color){
@@ -346,18 +399,18 @@ loadPieces()
 // -----------------------------------------------------------------------------------
 
 
-let playing = false;
-let time = localStorage.getItem("time")
-document.getElementById('min1').textContent = addZero(time);
-document.getElementById('min2').textContent = addZero(time);
-
-
 const addZero = (number) => {
     if (number < 10) {
         return '0' + number;
     }
     return number;
 }
+
+
+let playing = false;
+let time = localStorage.getItem("time")
+document.getElementById('min1').textContent = addZero(time);
+document.getElementById('min2').textContent = addZero(time);
 
 
 const startTimer = () => {
@@ -420,6 +473,9 @@ function boxClicked(e) {
     let element = e.target.closest(".box")
     if ((clicked == 0) && element.hasChildNodes()) {
         if ((firstSelection = selectPiece(element, turn)) != null) {
+            if (possibleMoves != null) {
+            unHighlightPossibleMoves()
+        }
             getMoves(element)
             highlightPossibleMoves()
             clicked = 1
@@ -434,7 +490,7 @@ function boxClicked(e) {
             highlightPossibleMoves()
         } else {
             //FORMA PROVISIONAL DE ASEGURARSE DE QUE LOS PEONES SOLO SE MUEVAN A LAS CASILLAS QUE ES LEGAL QUE SE MUEVAN
-            if (document.getElementById(firstSelection).children[0].dataset.piece == "pawn"){
+            if (document.getElementById(firstSelection).children[0].dataset.piece == "pawn" || document.getElementById(firstSelection).children[0].dataset.piece == "rook"){
                 if (possibleMoves.includes(element.id)){
                     clicked = 0
                     firstBox = document.getElementById(firstSelection)
@@ -500,12 +556,11 @@ $(".chess-board").mousedown(function(e){
         t = $(".pointer").offset().top
 
         if ((firstSelection = selectPiece(element, turn)) != null) {
-            if (possibleMoves != null) {
+            if (possibleMoves != []) {
                 unHighlightPossibleMoves()
             }
             getMoves(element)
             highlightPossibleMoves()
-            clicked = 1
         }
     } else { //si element no tiene una pieza valida, se salta el siguiente evento mouseup
         skip_mouseup = 1
@@ -522,13 +577,13 @@ $(".chess-board").mouseup(function (evento) {
         let dragged = document.getElementById(dragged_box_id)
 
 
-        if (element.hasChildNodes() && element.children[0].dataset.color == turn || dragged.id == element.id){
+        if ((element.hasChildNodes() && element.children[0].dataset.color == turn) || dragged.id == element.id){
             if (possibleMoves != null) {
                 unHighlightPossibleMoves()
             }
             getMoves(dragged)
             highlightPossibleMoves()
-            clicked = 1
+            
             
             dragged.children[0].children[0].classList.remove("pointer")
             document.getElementById(dragged.id).children[0].children[0].style.top = 0
@@ -536,7 +591,7 @@ $(".chess-board").mouseup(function (evento) {
             dragged.children[0].children[0].style.position = "relative"
             
         } else {
-            if(dragged.children[0].dataset.piece == "pawn"){
+            if(dragged.children[0].dataset.piece == "pawn" || dragged.children[0].dataset.piece == "rook"){
                 if(possibleMoves.includes(element.id)){
                     if (possibleMoves != null) {
                         unHighlightPossibleMoves()
