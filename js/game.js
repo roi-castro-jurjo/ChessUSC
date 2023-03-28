@@ -22,15 +22,15 @@ function displayChessPieces(piecesObject) {
         let box = document.getElementById(piece.position)
 
         box.innerHTML += 
-            `<div class="piece light" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
-                <img src="${piece.icon}" alt="Chess Piece" >
+            `<div class="piece light" style="pointer-events: none;" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
+                <img id="prueba" src="${piece.icon}" alt="Chess Piece" >
             </div>`
     })
     piecesObject.pieces.blackpieces.forEach(piece => {
         let box = document.getElementById(piece.position)
 
         box.innerHTML += 
-        `<div class="piece black" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
+        `<div class="piece black" style="pointer-events: none;" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
                 <img src="${piece.icon}" alt="Chess Piece" >
             </div>`
     })
@@ -45,6 +45,8 @@ async function loadPieces(){
     displayChessPieces(data)
 }
 
+
+
 //listener de clicks en las casillas
 /*
  *  Implementa un contador para diferenciar dos tipos de clicks:
@@ -57,7 +59,6 @@ function boxClicked(e) {
         if ((firstSelection = selectPiece(element, turn)) != null) {
             getMoves(element)
             highlightPossibleMoves()
-            //element.children[0].children[0].style.position = "absolute"
             clicked = 1
         }
     } else if((clicked == 1) && (firstSelection != element.id)){
@@ -104,6 +105,7 @@ function boxClicked(e) {
     }
 }
 
+
 //funcion que devuelve la posicion de la pieza seleccionada
 function selectPiece(box, color) {
     let position = box.id;
@@ -117,9 +119,12 @@ function selectPiece(box, color) {
 //funcion que añade el listener a todas las casillas del tablero
 function boxListener() {
     boxes.forEach((box) => {
-        box.addEventListener("click", boxClicked)
+        box.addEventListener("click", boxClicked)        
     })
 }
+
+
+
 
 //funcion que actualiza el turno
 function endTurn() {
@@ -310,6 +315,7 @@ function moveAnimation(firstBox, secondBox) {
 loadPieces()
 
 
+
 /************************************************** TIMER ********************************* */
 
 let playing = false;
@@ -368,3 +374,90 @@ const startTimer = () => {
         }
     }, 1000);
 }
+
+$(".chess-board").mousemove(function (e) {
+    var pointer = document.getElementsByClassName('pointer');
+    if(pointer.length > 0){
+        $(".pointer").css({ left: e.pageX - l - 25, top: e.pageY - t - 15 });
+    }
+
+});
+
+
+
+let l = null
+let t = null
+let skip_mouseup = 0
+
+let dragged_box_id
+
+$(".chess-board").mousedown(function(e){
+    let element = e.target.closest(".box")
+    if (element.hasChildNodes() && element.children[0].dataset.color == turn){
+        dragged_box_id = element.id
+        element.children[0].children[0].style.position = "relative"
+        element.children[0].children[0].classList.add("pointer")
+        l = $(".pointer").offset().left
+        t = $(".pointer").offset().top
+
+        if ((firstSelection = selectPiece(element, turn)) != null) {
+            if (possibleMoves != null) {
+                unHighlightPossibleMoves()
+            }
+            getMoves(element)
+            highlightPossibleMoves()
+            clicked = 1
+        }
+    } else {
+        skip_mouseup = 1
+    }
+
+})
+
+// TODO: TENER EN CUENTA EL CASO DE QUE EL MOUSEUP OCURRA FUERA DEL TABLERO
+
+$(".chess-board").mouseup(function (evento) {
+    if (!skip_mouseup){
+        let element = evento.target.closest(".box")
+        let dragged = document.getElementById(dragged_box_id)
+
+
+        if (element.hasChildNodes() && element.children[0].dataset.color == turn || dragged.id == element.id){
+            if (possibleMoves != null) {
+                unHighlightPossibleMoves()
+            }
+            getMoves(dragged)
+            highlightPossibleMoves()
+            clicked = 1
+            
+            dragged.children[0].children[0].classList.remove("pointer")
+            document.getElementById(dragged.id).children[0].children[0].style.top = 0
+            document.getElementById(dragged.id).children[0].children[0].style.left = 0
+            dragged.children[0].children[0].style.position = "relative"
+            
+        } else {
+            if (possibleMoves != null) {
+                unHighlightPossibleMoves()
+            }
+            if(document.getElementById(dragged_box_id).hasChildNodes()){
+                document.getElementById(dragged_box_id).children[0].children[0].classList.remove("pointer")
+            }
+            
+            move(dragged_box_id, element.id)
+            if (lastMove != null) {
+                unHighlight(lastMove)
+            }
+            saveLastMove(dragged_box_id, element.id)
+            endTurn()
+            highlightLastMove(lastMove)
+        
+        }
+    } else {
+        skip_mouseup = 0
+    }
+    
+
+    
+
+
+})
