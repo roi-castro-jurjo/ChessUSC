@@ -36,8 +36,8 @@
         <tipo>Blitz</tipo>
         <jugador1>Roi Castro Jurjo</jugador1>
         <jugador2>Pepe Rodriguez</jugador2>
-        <resultado1>0</resultado1>
-        <resultado2>1</resultado2>
+        <resultado1>1</resultado1>
+        <resultado2>0</resultado2>
         <fecha>15 ene. 2023</fecha>
     </partida>
 </historial>
