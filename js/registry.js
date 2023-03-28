@@ -47,22 +47,37 @@ function loadTable() {
 
 //funcion que asigna un color a cada fila en funcion del resultado del jugador de la primera fila
 function tableStyle() {
+    let pos = null
+    var gif = document.getElementsByClassName('registry-gif')
+    console.log(gif)
     let rows = document.getElementsByTagName('tr')
-    for (let i = 0; i < rows.length - 1; i++) {
-        if (rows[i+1].childNodes[2].childNodes[0].textContent == '1') {
-            rows[i+1].onmouseover = function() {
+    for (let i = 1; i < rows.length; i++) {
+        console.log(rows[i])
+        if (rows[i].childNodes[2].childNodes[0].textContent == '1') {
+            rows[i].onmouseover = function() {
+                pos = rows[i].getBoundingClientRect()
                 this.style.backgroundColor = 'green'
+                gif[i-1].style.visibility = 'visible'
+                gif[i-1].style.top = pos.top - 30
+                gif[i-1].style.left = pos.right + 40
             }
-            rows[i+1].onmouseleave = function() {
+            rows[i].onmouseleave = function() {
                 this.style.backgroundColor = 'black'
+                gif[i-1].style.visibility = 'hidden'
             }
         } else {
-            rows[i+1].onmouseover = function() {
+            rows[i].onmouseover = function() {
+                pos = rows[i].getBoundingClientRect()
                 this.style.backgroundColor = 'red'
+                gif[i-1].style.visibility = 'visible'
+                gif[i-1].style.top = pos.top - 30
+                gif[i-1].style.left = pos.right + 40
             }
-            rows[i+1].onmouseleave = function() {
+            rows[i].onmouseleave = function() {
                 this.style.backgroundColor = 'black'
+                gif[i-1].style.visibility = 'hidden'
             }
         }
-    }
+    }    
 }
+

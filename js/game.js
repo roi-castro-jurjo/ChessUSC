@@ -45,8 +45,6 @@ async function loadPieces(){
     displayChessPieces(data)
 }
 
-
-
 //listener de clicks en las casillas
 /*
  *  Implementa un contador para diferenciar dos tipos de clicks:
