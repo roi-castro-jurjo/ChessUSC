@@ -151,6 +151,13 @@ body {
     padding: 10px;
 }
 
+.registry-gif {
+    height: 100px;
+    visibility: hidden;
+    position: absolute;
+    border: 4px solid white;
+    border-radius: 5%;
+}
 
 
 tbody tr:hover {
