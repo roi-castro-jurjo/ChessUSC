@@ -331,3 +331,8 @@ body {
   -ms-user-select: none; /* Internet Explorer/Edge */
   user-select: none;
 }
+
+.pointer {
+    transform: scale(1.2);
+    transition: transform 0.3s;
+}
