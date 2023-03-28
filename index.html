@@ -30,16 +30,16 @@
                     </div>
                     <div class="play-buttons">
                         <div class="buttons-row">
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="1"> <img src="images/balita.png" alt="" >1 min</button>
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="1"> <img src="images/balita.png" alt="">1 | 2</button>
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="3"> <img src="images/rayito.png" alt="">3 min</button>
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="3"> <img src="images/rayito.png" alt="">3 | 2</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="1" data-increment="0"> <img src="images/balita.png" alt="" >1 min</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="1" data-increment="2"> <img src="images/balita.png" alt="">1 | 2</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="3" data-increment="0"> <img src="images/rayito.png" alt="">3 min</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="3" data-increment="2"> <img src="images/rayito.png" alt="">3 | 2</button>
                         </div>
                         <div class="buttons-row">
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="10"> <img src="images/relojito.png" alt="">10 min</button>
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="15"> <img src="images/relojito.png" alt="">15 | 10</button>
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="1440"> <img src="images/solito.png" style="height: 54%;" alt="">1 día</button>
-                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" value="10080"> <img src="images/solito.png" style="height: 54%;" alt="">7 días</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="10" data-increment="0"> <img src="images/relojito.png" alt="">10 min</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="15" data-increment="10"> <img src="images/relojito.png" alt="">15 | 10</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="1440" data-increment="0"> <img src="images/solito.png" style="height: 54%;" alt="">1 día</button>
+                            <button class="time-selector-buttons" onclick="window.location.href='play.html'" data-time="10080" data-increment="0"> <img src="images/solito.png" style="height: 54%;" alt="">7 días</button>
                         </div>
                     </div>
                     <div class="games-registry-container">
@@ -83,7 +83,8 @@
 
         buttons.forEach(button => {
             button.addEventListener("click", function(){
-                localStorage.setItem("time", button.value)
+                localStorage.setItem("time", button.dataset.time)
+                localStorage.setItem("increment", button.dataset.increment)
             })
         });
 
