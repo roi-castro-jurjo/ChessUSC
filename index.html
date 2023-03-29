@@ -13,7 +13,7 @@
         <div id="header" style ="min-height: 105px;"></div>
 
         <div class="main-container">
-            <div class="left-column">
+            <div class="side-column">
                 <div class="GOFD-container">
                     <div class="GOFD-header">
                         <p>PARTIDA DEL DÍA</p>
@@ -21,6 +21,9 @@
                     <div class="GOFD-gif">
                         <img src="../images/board.gif" alt="partida-del-dia">
                     </div>
+                </div>
+                <div class="ad-container">
+                    <img src="../images/adplaceholder.jpg" alt="partida-del-dia">
                 </div>
             </div>
             <div class="main-column">
@@ -64,7 +67,7 @@
                     </div>
                 </div>
             </div>
-            <div class="left-column">
+            <div class="side-column">
                 <div class="GOFD-container">
                     <div class="GOFD-header">
                         <p>JUGADOR DEL DÍA</p>
@@ -73,21 +76,21 @@
                         <img src="../images/magnus-carlsen.jpg" alt="partida-del-dia">
                     </div>
                 </div>
+                <div class="ad-container">
+                    <img src="../images/adplaceholder.jpg" alt="partida-del-dia">
+                </div>
             </div>
         </div>
     </body>
 
     <script>
-
         let buttons = document.querySelectorAll(".time-selector-buttons")
-
         buttons.forEach(button => {
             button.addEventListener("click", function(){
                 localStorage.setItem("time", button.dataset.time)
                 localStorage.setItem("increment", button.dataset.increment)
             })
         });
-
     </script>
 
     <script src="js/registry.js"></script>
