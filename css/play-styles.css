@@ -179,7 +179,7 @@ body {
     content: "H";
 }
 
-.light {
+.white {
     filter: sepia();
 }
 

@@ -33,7 +33,7 @@ function displayChessPieces(piecesObject) {
         let box = document.getElementById(piece.position)
 
         box.innerHTML += 
-            `<div class="piece light" style="pointer-events: none;" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
+            `<div class="piece white" style="pointer-events: none;" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
                 <img id="prueba" src="${piece.icon}" alt="Chess Piece" >
             </div>`
     })
@@ -130,6 +130,7 @@ function move(position1, position2) {
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
 function getMoves(box) {
+    possibleMoves = []
     let piece = box.children[0].dataset.piece
     if (piece == "pawn"){
          getPawnMoves(box.id, box.children[0].dataset.color)
@@ -155,7 +156,6 @@ function getMoves(box) {
 
 //funcion que devuelve los posibles movimientos de un peon
 function getPawnMoves(position, color) {
-    possibleMoves = []
     let p = position.split('-')
     let x = p[0]
     let y = p[1]
@@ -209,16 +209,77 @@ function getPawnCaptures(nextY, x){
 // -----------------------------------------------------------------------------------
 
 
+function checkAndGetCaptures(x, y, color){
+    if(document.getElementById(x + "-" + y).hasChildNodes()){
+        if(document.getElementById(x + "-" + y).children[0].dataset.color != color){
+            possibleMoves.push(x + "-" + y)
+        }
+        return 1
+    }
+}
+
+
 //funcion que devuelve los movimientos posibles de un alfil
 function getBishopMoves(position, color){
-    possibleMoves = []
+    let p = position.split('-')
+    let x = p[0]
+    let y = p[1]
+    let x_aux = x
+    let y_aux = parseInt(y)
+
+    while (x_aux < 'H' && y_aux < 8){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
+        y_aux++
+        if(checkAndGetCaptures(x_aux, y_aux, color)){
+            break
+        } else {
+            possibleMoves.push(x_aux + "-" + y_aux)
+        }
+    }
+    x_aux = x
+    y_aux = parseInt(y)
+
+    while (x_aux < 'H' && y_aux > 1){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
+        y_aux--
+        if(checkAndGetCaptures(x_aux, y_aux, color)){
+            break
+        } else {
+            possibleMoves.push(x_aux + "-" + y_aux)
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    while (x_aux > 'A' && y_aux > 1){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 1)
+        y_aux--
+        if(checkAndGetCaptures(x_aux, y_aux, color)){
+            break
+        } else {
+            possibleMoves.push(x_aux + "-" + y_aux)
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    while (x_aux > 'A' && y_aux < 8){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 1)
+        y_aux++
+        if(checkAndGetCaptures(x_aux, y_aux, color)){
+            break
+        } else {
+            possibleMoves.push(x_aux + "-" + y_aux)
+        }
+    }
 
 }
 
 
 //funcion que devuelve los movimientos posibles de una torre
 function getRookMoves(position, color){
-    possibleMoves = []
     let p = position.split('-')
     let x = p[0]
     let y = p[1]
@@ -227,7 +288,7 @@ function getRookMoves(position, color){
 
     while (x_aux < 'H'){
         x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
-        if(getRookCaptures(x_aux, y)){
+        if(checkAndGetCaptures(x_aux, y, color)){
             break
         } else {
             possibleMoves.push(x_aux + "-" + y)
@@ -237,7 +298,7 @@ function getRookMoves(position, color){
     while (x_aux > 'A'){
         x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 1)
 
-        if(getRookCaptures(x_aux, y)){
+        if(checkAndGetCaptures(x_aux, y, color)){
             break
         } else {
             possibleMoves.push(x_aux + "-" + y)
@@ -245,10 +306,9 @@ function getRookMoves(position, color){
         
     }
 
-
     while(y_aux < 8){
         y_aux++
-        if(getRookCaptures(x, y_aux)){
+        if(checkAndGetCaptures(x, y_aux, color)){
             break
         } else {
             possibleMoves.push(x + "-" + y_aux)
@@ -257,7 +317,7 @@ function getRookMoves(position, color){
     y_aux = parseInt(y)
     while(y_aux > 1){
         y_aux--
-        if(getRookCaptures(x, y_aux)){
+        if(checkAndGetCaptures(x, y_aux, color)){
             break
         } else {
             possibleMoves.push(x + "-" + y_aux)
@@ -265,15 +325,6 @@ function getRookMoves(position, color){
     }
 }
 
-
-function getRookCaptures(x, y){
-    if(document.getElementById(x + "-" + y).hasChildNodes()){
-        if(document.getElementById(x + "-" + y).children[0].dataset.color != turn){
-            possibleMoves.push(x + "-" + y)
-        }
-        return 1
-    }
-}
 
 //funcion que devuelve los movimientos posibles de un caballo
 function getKnightMoves(position, color){
