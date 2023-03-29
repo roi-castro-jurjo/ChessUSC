@@ -14,6 +14,7 @@ let elementPos = null
 
 let possibleMovesStyles = []    //informacion de los movimientos posibles
 let possibleMoves = []          //array de movimientos posibles
+let enemyMoves = []
 let aux_PossibleMoves = []
 let pawnCaptures = []
 
@@ -83,6 +84,10 @@ function boxListener() {
     })
 }
 
+function eliminateDuplicates(array) {
+    return [...new Set(array)]
+}
+
 // -----------------------------------------------------------------------------------
 // TURNS
 // -----------------------------------------------------------------------------------
@@ -147,15 +152,26 @@ function getPieceMoves(box) {
     }
 }
 
-function getAllMoves(color){
-    possibleMoves = []
+let checking_check = 0
+
+function getAllEnemyMoves(color){
+    enemyMoves = []
+    let oppositeColor
+
+    if (color == "white"){
+        oppositeColor = "black"
+    } else {
+        oppositeColor = "white"
+    }
+
     boxes.forEach((box) => {
         if(box.hasChildNodes()){
+            checking_check = 1
             let piece = box.children[0].dataset.piece
             if (box.children[0].dataset.color != color){
                 if (piece == "pawn"){
                     getPawnMoves(box.id, box.children[0].dataset.color)
-                    possibleMoves.push.apply(possibleMoves, pawnCaptures)
+                    enemyMoves.push.apply(enemyMoves, pawnCaptures)
                     pawnCaptures = []
                 }else if (piece == "bishop"){
                     getBishopMoves(box.id, box.children[0].dataset.color)
@@ -166,21 +182,20 @@ function getAllMoves(color){
                 }else if (piece == "queen"){
                     getQueenMoves(box.id, box.children[0].dataset.color)
                 } else if(piece == "king"){
-                    getEnemyKingMoves(box.id, box.children[0].dataset.color)
+                    getEnemyKingMoves(box.id, color)
                 }
             }
 
         }
+        checking_check = 0
     })
 }
 
 function isCheck(position, color){
-    getAllMoves(color)
-    if(possibleMoves.includes(position)){
-        possibleMoves = []
+    //getAllEnemyMoves(color)
+    if(enemyMoves.includes(position)){
         return 1
     } else {
-        possibleMoves = []
         return 0
     }
 }
@@ -198,7 +213,7 @@ function getPawnMoves(position, color) {
         let nextY = parseInt(y) + 1
         let nextY2 = parseInt(y) + 2
         if (y < 8) {
-            if (!document.getElementById(x.concat('-', nextY)).hasChildNodes()){
+            if (!document.getElementById(x.concat('-', nextY)).hasChildNodes() && !checking_check){
                 if (y == 2 && !document.getElementById(x.concat('-', nextY2)).hasChildNodes()){
                 possibleMoves.push(x.concat('-', nextY2))
             }
@@ -213,7 +228,7 @@ function getPawnMoves(position, color) {
         let nextY2 = parseInt(y) - 2
         if (y > 1 ) {
 
-            if (!document.getElementById(x.concat('-', nextY)).hasChildNodes()) {
+            if (!document.getElementById(x.concat('-', nextY)).hasChildNodes() && !checking_check) {
                 if (y == 7 && !document.getElementById(x.concat('-', nextY2)).hasChildNodes()){
                 possibleMoves.push(x.concat('-', nextY2))
             }
@@ -224,19 +239,26 @@ function getPawnMoves(position, color) {
             
         }
     }
+    checking_check = 0
 }
 
 //funcion que devuelve las posibles capturas de un peon
 function getPawnCaptures(nextY, x){
     if (x < 'H' && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).hasChildNodes() && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).children[0].dataset.color != turn){
-        possibleMoves.push(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY))
+        if(!checking_check){
+            possibleMoves.push(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY))
+        }
     }
     pawnCaptures.push(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY))
 
     if (x > 'A' && document.getElementById(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY)).hasChildNodes() && document.getElementById(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY)).children[0].dataset.color != turn){
-        possibleMoves.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
+        if(!checking_check){
+            possibleMoves.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
+        }
     }
     pawnCaptures.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
+    checking_check = 0
+
 }
 
 // -----------------------------------------------------------------------------------
@@ -247,8 +269,14 @@ function getPawnCaptures(nextY, x){
 function checkAndGetCaptures(x, y, color){
     if(document.getElementById(x + "-" + y).hasChildNodes()){
         if(document.getElementById(x + "-" + y).children[0].dataset.color != color){
-            possibleMoves.push(x + "-" + y)
-            aux_PossibleMoves.push(x + "-" + y)
+            if(checking_check){
+                enemyMoves.push(x + "-" + y)
+            } else {
+                possibleMoves.push(x + "-" + y)
+            }
+           
+        } else if(checking_check){
+            enemyMoves.push(x + "-" + y)
         }
         return 1
     } else {
@@ -271,7 +299,12 @@ function getBishopMoves(position, color){
         if(checkAndGetCaptures(x_aux, y_aux, color)){
             break
         } else {
-            possibleMoves.push(x_aux + "-" + y_aux)
+            if(checking_check){
+                enemyMoves.push(x_aux + "-" + y_aux)
+            } else {
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+            
         }
     }
     x_aux = x
@@ -283,7 +316,12 @@ function getBishopMoves(position, color){
         if(checkAndGetCaptures(x_aux, y_aux, color)){
             break
         } else {
-            possibleMoves.push(x_aux + "-" + y_aux)
+            if(checking_check){
+                enemyMoves.push(x_aux + "-" + y_aux)
+            } else {
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+            
         }
     }
 
@@ -296,7 +334,11 @@ function getBishopMoves(position, color){
         if(checkAndGetCaptures(x_aux, y_aux, color)){
             break
         } else {
-            possibleMoves.push(x_aux + "-" + y_aux)
+            if(checking_check){
+                enemyMoves.push(x_aux + "-" + y_aux)
+            } else {
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
         }
     }
 
@@ -309,11 +351,16 @@ function getBishopMoves(position, color){
         if(checkAndGetCaptures(x_aux, y_aux, color)){
             break
         } else {
-            possibleMoves.push(x_aux + "-" + y_aux)
+            if(checking_check){
+                enemyMoves.push(x_aux + "-" + y_aux)
+            } else {
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
         }
     }
-
+    checking_check = 0
 }
+
 
 //funcion que devuelve los movimientos posibles de una torre
 function getRookMoves(position, color){
@@ -328,7 +375,11 @@ function getRookMoves(position, color){
         if(checkAndGetCaptures(x_aux, y, color)){
             break
         } else {
-            possibleMoves.push(x_aux + "-" + y)
+            if(checking_check){
+                enemyMoves.push(x_aux + "-" + y)
+            } else {
+                possibleMoves.push(x_aux + "-" + y)
+            }
         }
     }
     x_aux = x
@@ -338,7 +389,11 @@ function getRookMoves(position, color){
         if(checkAndGetCaptures(x_aux, y, color)){
             break
         } else {
-            possibleMoves.push(x_aux + "-" + y)
+            if(checking_check){
+                enemyMoves.push(x_aux + "-" + y)
+            } else {
+                possibleMoves.push(x_aux + "-" + y)
+            }
         }
         
     }
@@ -348,7 +403,12 @@ function getRookMoves(position, color){
         if(checkAndGetCaptures(x, y_aux, color)){
             break
         } else {
-            possibleMoves.push(x + "-" + y_aux)
+            
+            if(checking_check){
+                enemyMoves.push(x + "-" + y_aux)
+            } else {
+                possibleMoves.push(x + "-" + y_aux)
+            }
         }
     }
     y_aux = parseInt(y)
@@ -357,10 +417,16 @@ function getRookMoves(position, color){
         if(checkAndGetCaptures(x, y_aux, color)){
             break
         } else {
-            possibleMoves.push(x + "-" + y_aux)
+            if(checking_check){
+                enemyMoves.push(x + "-" + y_aux)
+            } else {
+                possibleMoves.push(x + "-" + y_aux)
+            }
         }
     }
+    checking_check = 0
 }
+
 
 //funcion que devuelve los movimientos posibles de un caballo
 function getKnightMoves(position, color){
@@ -376,13 +442,22 @@ function getKnightMoves(position, color){
         y_aux = y_aux - 1
         if (y_aux > 0){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
         y_aux = y_aux + 2
         if (y_aux < 9){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
     }
@@ -396,13 +471,21 @@ function getKnightMoves(position, color){
         y_aux = y_aux - 1
         if (y_aux > 0){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
         y_aux = y_aux + 2
         if (y_aux < 9){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
     }
@@ -416,14 +499,22 @@ function getKnightMoves(position, color){
         x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
         if (x_aux < 'I'){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
 
         x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 2)
         if (x_aux >= 'A'){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
     }
@@ -437,24 +528,43 @@ function getKnightMoves(position, color){
         x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
         if (x_aux < 'I'){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
 
         x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 2)
         if (x_aux >= 'A'){
             if(!checkAndGetCaptures(x_aux, y_aux, color)){
-                possibleMoves.push(x_aux + "-" + y_aux)
+                if(checking_check){
+                    enemyMoves.push(x_aux + "-" + y_aux)
+                } else {
+                    possibleMoves.push(x_aux + "-" + y_aux)
+                }
             }
         }
     }
+    checking_check = 0
 }
+
 
 //funcion que devuelve los movimientos posibles de una reina
 function getQueenMoves(position, color){
-    getBishopMoves(position, color)
-    getRookMoves(position, color)
+    if(checking_check){
+        getBishopMoves(position, color)
+        checking_check = 1
+        getRookMoves(position, color)
+        checking_check = 0
+    } else {
+        getBishopMoves(position, color)
+        getRookMoves(position, color)
+    }
+
 }
+
 
 //funcion que devuelve los movimientos posibles de un rey
 function getKingMoves(position, color){
@@ -464,7 +574,8 @@ function getKingMoves(position, color){
     let x_aux = x
     let y_aux = parseInt(y)
     aux_PossibleMoves = []
-    
+    possibleMoves = []
+    getAllEnemyMoves(color)
 
     if (x < 'H'){ 
         x_aux = String.fromCharCode(x.charCodeAt(0) + 1)
@@ -518,7 +629,7 @@ function getKingMoves(position, color){
     x_aux = x
     y_aux = parseInt(y)
 
-    if (y_aux < 7){
+    if (y_aux < 8){
         y_aux = y_aux + 1
         if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-abajo
                 aux_PossibleMoves.push(x_aux + "-" + y_aux)
@@ -535,18 +646,23 @@ function getKingMoves(position, color){
     }
 
     aux_PossibleMoves.push.apply(aux_PossibleMoves, possibleMoves)
-    getAllMoves(color)
+    
+    getAllEnemyMoves(color)
+    aux_PossibleMoves = eliminateDuplicates(aux_PossibleMoves)
+    enemyMoves = eliminateDuplicates(enemyMoves)
 
-    aux_PossibleMoves.forEach((move) => {
-        if(possibleMoves.includes(move)){
+    enemyMoves.forEach((move) => {
+        if(aux_PossibleMoves.includes(move)){
             aux_PossibleMoves.splice(aux_PossibleMoves.indexOf(move), 1)
         }  
     })
 
     possibleMoves = aux_PossibleMoves
 
+    aux_PossibleMoves = []
+    enemyMoves = []
+    checking_check = 0
 }
-
 
 
 function getEnemyKingMoves(position, color){
@@ -560,13 +676,13 @@ let p = position.split('-')
     if (x < 'H'){ 
         x_aux = String.fromCharCode(x.charCodeAt(0) + 1)
         if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla derecha
-            possibleMoves.push(x_aux + "-" + y_aux)
+            enemyMoves.push(x_aux + "-" + y_aux)
         } 
         
         if (y_aux < 8){
             y_aux = y_aux + 1
             if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla derecha-arriba
-                possibleMoves.push(x_aux + "-" + y_aux)
+                enemyMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
         }
@@ -574,7 +690,7 @@ let p = position.split('-')
         if (y_aux > 1){
             y_aux = y_aux - 1
             if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla derecha-abajo
-                possibleMoves.push(x_aux + "-" + y_aux)
+                enemyMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
         }
@@ -586,13 +702,13 @@ let p = position.split('-')
     if (x > 'A'){
         x_aux = String.fromCharCode(x.charCodeAt(0) - 1)
         if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda
-            possibleMoves.push(x_aux + "-" + y_aux)
+            enemyMoves.push(x_aux + "-" + y_aux)
         }
         
         if (y_aux < 8){
             y_aux = y_aux + 1
             if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-arriba
-                possibleMoves.push(x_aux + "-" + y_aux)
+                enemyMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
         }
@@ -600,7 +716,7 @@ let p = position.split('-')
         if (y_aux > 1){
             y_aux = y_aux - 1
             if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-abajo
-                possibleMoves.push(x_aux + "-" + y_aux)
+                enemyMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
         }
@@ -612,7 +728,7 @@ let p = position.split('-')
     if (y_aux < 7){
         y_aux = y_aux + 1
         if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-abajo
-                possibleMoves.push(x_aux + "-" + y_aux)
+                enemyMoves.push(x_aux + "-" + y_aux)
             }
         y_aux = parseInt(y)
     }
@@ -620,10 +736,11 @@ let p = position.split('-')
     if (y_aux > 1){
         y_aux = y_aux - 1 
         if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-abajo
-                possibleMoves.push(x_aux + "-" + y_aux)
+                enemyMoves.push(x_aux + "-" + y_aux)
             }
         y_aux = parseInt(y)
     }
+    checking_check = 0
 }
 
 // -----------------------------------------------------------------------------------
@@ -748,7 +865,6 @@ const startTimer = () => {
                     clock1_mins = clock1_mins - 1;
                 }
                 clock1_secs = clock1_secs - 1;
-                console.log(clock1_secs)
                 if (clock1_secs < 0) {
                     if (clock1_secs == 0 && clock1_mins == 0) {
                         clearInterval(timerId);
