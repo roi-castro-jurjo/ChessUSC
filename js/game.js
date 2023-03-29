@@ -169,6 +169,8 @@ function getAllMoves(color){
                     getRookMoves(box.id, box.children[0].dataset.color)
                 }else if (piece == "queen"){
                     getQueenMoves(box.id, box.children[0].dataset.color)
+                } else if(piece == "king"){
+                    getEnemyKingMoves(box.id, box.children[0].dataset.color)
                 }
             }
 
@@ -546,8 +548,94 @@ function getKingMoves(position, color){
     }
 
     aux_PossibleMoves.push.apply(aux_PossibleMoves, possibleMoves)
+    getAllMoves(color)
+
+    aux_PossibleMoves.forEach((move) => {
+        if(possibleMoves.includes(move)){
+            aux_PossibleMoves.splice(aux_PossibleMoves.indexOf(move), 1)
+        }  
+    })
+
     possibleMoves = aux_PossibleMoves
 
+}
+
+
+function getEnemyKingMoves(position, color){
+let p = position.split('-')
+    let x = p[0]
+    let y = p[1]
+    let x_aux = x
+    let y_aux = parseInt(y)
+    
+
+    if (x < 'H'){ 
+        x_aux = String.fromCharCode(x.charCodeAt(0) + 1)
+        if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla derecha
+            possibleMoves.push(x_aux + "-" + y_aux)
+        } 
+        
+        if (y_aux < 8){
+            y_aux = y_aux + 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla derecha-arriba
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+
+        if (y_aux > 1){
+            y_aux = y_aux - 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla derecha-abajo
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    if (x > 'A'){
+        x_aux = String.fromCharCode(x.charCodeAt(0) - 1)
+        if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda
+            possibleMoves.push(x_aux + "-" + y_aux)
+        }
+        
+        if (y_aux < 8){
+            y_aux = y_aux + 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-arriba
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+
+        if (y_aux > 1){
+            y_aux = y_aux - 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-abajo
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    if (y_aux < 7){
+        y_aux = y_aux + 1
+        if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-abajo
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        y_aux = parseInt(y)
+    }
+
+    if (y_aux > 1){
+        y_aux = y_aux - 1 
+        if(!checkAndGetCaptures(x_aux, y_aux, color)){ //caso casilla izquierda-abajo
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        y_aux = parseInt(y)
+    }
 }
 
 
