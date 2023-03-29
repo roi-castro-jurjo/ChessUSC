@@ -45,12 +45,17 @@ body {
     color: white;
 }
 
-.GOFD-gif {
+.GOFD-gif, .POFD-gif {
     width: 100%;
 }
 
 .GOFD-gif img {
     width: 100%;
+}
+
+.POFD-gif img {
+    width: 100%;
+    border: 1px solid white;
 }
 
 /********* MAIN COLUMN *********/
