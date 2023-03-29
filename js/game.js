@@ -13,17 +13,27 @@ let boxSelection = null         //casilla a donde mover la pieza
 let elementPos = null
 
 let possibleMovesStyles = []    //informacion de los movimientos posibles
-let possibleMoves = []
+let possibleMoves = []          //array de movimientos posibles
 let aux_PossibleMoves = []
+let pawnCaptures = []
 
 let lastMove = null             //informacion del ultimo movimiento efectuado
 let lastMoveStyles = null
 
+let playing = false;
+let time = localStorage.getItem("time")
+let increment = localStorage.getItem("increment")
 
 // -----------------------------------------------------------------------------------
-// DISPLAY PIECES
+// LOAD AND DISPLAY PIECES
 // -----------------------------------------------------------------------------------
 
+//funcion que accede al fichero json con la definicion de las piezas
+async function loadPieces(){
+    const response = await fetch('../json/pieces.json');
+    const data = await response.json();
+    displayChessPieces(data)
+}
 
 //funcion que carga las piezas en sus casillas iniciales en el tablero
 function displayChessPieces(piecesObject) {
@@ -50,19 +60,11 @@ function displayChessPieces(piecesObject) {
     boxListener()
 }
 
+loadPieces()
 
 // -----------------------------------------------------------------------------------
 // MISCELANEUS
 // -----------------------------------------------------------------------------------
-
-
-//funcion que accede al fichero json con la definicion de las piezas
-async function loadPieces(){
-    const response = await fetch('../json/pieces.json');
-    const data = await response.json();
-    displayChessPieces(data)
-}
-
 
 //funcion que devuelve la posicion de la pieza seleccionada
 function selectPiece(box, color) {
@@ -74,7 +76,6 @@ function selectPiece(box, color) {
     }
 }
 
-
 //funcion que añade el listener a todas las casillas del tablero
 function boxListener() {
     boxes.forEach((box) => {
@@ -82,11 +83,9 @@ function boxListener() {
     })
 }
 
-
 // -----------------------------------------------------------------------------------
 // TURNS
 // -----------------------------------------------------------------------------------
-
 
 //funcion que actualiza el turno
 function endTurn() {
@@ -97,17 +96,14 @@ function endTurn() {
     }
 }
 
-
 //funcion que guarda la informacion relativa al ultimo movimiento
 function saveLastMove(position1, position2) {
     lastMove = {position1, position2}
 }
 
-
 // -----------------------------------------------------------------------------------
 // MOVE LOGIC
 // -----------------------------------------------------------------------------------
-
 
 //funcion de implementacion de movimiento. Dada dos posiciones del tablero, intercambia sus contenidos y reproduce el sonido correspondiente
 function move(position1, position2) {
@@ -126,7 +122,9 @@ function move(position1, position2) {
     if(!playing){
         startTimer()
     }
-
+    if(increment != 0) {
+        addIncrement()
+    }
 }
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
@@ -148,8 +146,6 @@ function getPieceMoves(box) {
         getKingMoves(box.id, box.children[0].dataset.color)
     }
 }
-
-let pawnCaptures = []
 
 function getAllMoves(color){
     possibleMoves = []
@@ -176,7 +172,6 @@ function getAllMoves(color){
     })
 }
 
-
 function isCheck(position, color){
     getAllMoves(color)
     if(possibleMoves.includes(position)){
@@ -188,11 +183,9 @@ function isCheck(position, color){
     }
 }
 
-
 // -----------------------------------------------------------------------------------
 // PAWN MOVES
 // -----------------------------------------------------------------------------------
-
 
 //funcion que devuelve los posibles movimientos de un peon
 function getPawnMoves(position, color) {
@@ -231,7 +224,6 @@ function getPawnMoves(position, color) {
     }
 }
 
-
 //funcion que devuelve las posibles capturas de un peon
 function getPawnCaptures(nextY, x){
     if (x < 'H' && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).hasChildNodes() && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).children[0].dataset.color != turn){
@@ -244,7 +236,6 @@ function getPawnCaptures(nextY, x){
     }
     pawnCaptures.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
 }
-
 
 // -----------------------------------------------------------------------------------
 // PIECES MOVES
@@ -322,7 +313,6 @@ function getBishopMoves(position, color){
 
 }
 
-
 //funcion que devuelve los movimientos posibles de una torre
 function getRookMoves(position, color){
     let p = position.split('-')
@@ -369,7 +359,6 @@ function getRookMoves(position, color){
         }
     }
 }
-
 
 //funcion que devuelve los movimientos posibles de un caballo
 function getKnightMoves(position, color){
@@ -459,13 +448,11 @@ function getKnightMoves(position, color){
     }
 }
 
-
 //funcion que devuelve los movimientos posibles de una reina
 function getQueenMoves(position, color){
     getBishopMoves(position, color)
     getRookMoves(position, color)
 }
-
 
 //funcion que devuelve los movimientos posibles de un rey
 function getKingMoves(position, color){
@@ -550,11 +537,9 @@ function getKingMoves(position, color){
 
 }
 
-
 // -----------------------------------------------------------------------------------
 // HIGHLIGHT MOVES
 // -----------------------------------------------------------------------------------
-
 
 //funcion que destaca los movimientos posibles
 function highlightPossibleMoves() {
@@ -566,14 +551,12 @@ function highlightPossibleMoves() {
     }
 }
 
-
 //funcion que devuelve las casillas de los movimientos posibles a sus colores originales
 function unHighlightPossibleMoves() {
     possibleMoves.forEach(move => {
         document.getElementById(move).style.backgroundColor = possibleMovesStyles.shift()
     })
 }
-
 
 //funcion que hace que las casillas del ultimo movimiento se resalten
 function highlightLastMove(lastMove) {
@@ -584,18 +567,15 @@ function highlightLastMove(lastMove) {
     document.getElementById(lastMove.position2).style.backgroundColor = "darkgrey"
 }
 
-
 //funcion que devuelve las casillas del ultimo movimiento a sus colores originales
 function unHighlight(lastMove) {
     document.getElementById(lastMove.position1).style.backgroundColor = lastMoveStyles.previousFirstPositionStyle
     document.getElementById(lastMove.position2).style.backgroundColor = lastMoveStyles.previousSecondPositionStyle
 }
 
-
 // -----------------------------------------------------------------------------------
 // MOVEMENT ANIMATIONS
 // -----------------------------------------------------------------------------------
-
 
 //funcion para la animacion de movimiento de las piezas
 function moveAnimation(firstBox, secondBox) {
@@ -649,8 +629,6 @@ function moveAnimation(firstBox, secondBox) {
         }
     } 
 }
-loadPieces()
-
 
 // -----------------------------------------------------------------------------------
 // TIMER
@@ -664,12 +642,8 @@ const addZero = (number) => {
     return number;
 }
 
-
-let playing = false;
-let time = localStorage.getItem("time")
 document.getElementById('min1').textContent = addZero(time);
 document.getElementById('min2').textContent = addZero(time);
-
 
 const startTimer = () => {
     playing = true;
@@ -680,41 +654,85 @@ const startTimer = () => {
         if (turn == "black") {
             if (playing) {
                 clock1_mins = parseInt(document.getElementById("min1").textContent);
+                clock1_secs = parseInt(document.getElementById("sec1").textContent);
                 if (clock1_secs == 60) {
                     clock1_mins = clock1_mins - 1;
                 }
                 clock1_secs = clock1_secs - 1;
-                document.getElementById('sec1').textContent = addZero(clock1_secs);
-                document.getElementById('min1').textContent = addZero(clock1_mins);
-                if (clock1_secs == 0) {
+                console.log(clock1_secs)
+                if (clock1_secs < 0) {
                     if (clock1_secs == 0 && clock1_mins == 0) {
                         clearInterval(timerId);
                         playing = false;
                     }
-                    clock1_secs = 60;
+                    clock1_mins = clock1_mins - 1;
+                    clock1_secs = 59;
                 }
+                document.getElementById('sec1').textContent = addZero(clock1_secs);
+                document.getElementById('min1').textContent = addZero(clock1_mins);
             }
         } else {
             if (playing) {
                 clock2_mins = parseInt(document.getElementById("min2").textContent);
+                clock2_secs = parseInt(document.getElementById("sec2").textContent);
                 if (clock2_secs == 60) {
                     clock2_mins = clock2_mins - 1;
                 }
                 clock2_secs = clock2_secs - 1;
-                document.getElementById('sec2').textContent = addZero(clock2_secs);
-                document.getElementById('min2').textContent = addZero(clock2_mins);
-                if (clock2_secs == 0) {
+                if (clock2_secs < 0) {
                     if (clock2_secs == 0 && clock2_mins == 0) {
                         clearInterval(timerId);
                         playing = false;
                     }
-                    clock2_secs = 60;
+                    clock2_mins = clock2_mins - 1;
+                    clock2_secs = 59;
                 }
+                document.getElementById('sec2').textContent = addZero(clock2_secs);
+                document.getElementById('min2').textContent = addZero(clock2_mins);
             }
         }
     }, 1000);
 }
 
+function addIncrement() {  
+    if (turn == "black") {
+        clock1_secs_box = document.getElementById("sec1");
+        clock1_mins_box = document.getElementById("min1");
+        clock1_mins = parseInt(clock1_mins_box.textContent);
+        clock1_secs = parseInt(clock1_secs_box.textContent);
+        if (clock1_secs + parseInt(increment) > 60) {
+            clock1_mins += 1;
+            clock1_secs = (clock1_secs + parseInt(increment)) - 60
+            document.getElementById("min1").textContent = addZero(clock1_mins)
+            document.getElementById("sec1").textContent = addZero(clock1_secs)
+        } else if (clock1_secs + parseInt(increment) == 60) {
+            clock1_mins += 1;
+            clock1_secs = 0;
+            document.getElementById("min1").textContent = addZero(clock2_mins)
+            document.getElementById("sec1").textContent = addZero(clock2_secs)
+        }else {
+            document.getElementById("sec1").textContent = addZero(clock1_secs + parseInt(increment))
+        }
+    } else {
+        clock2_secs_box = document.getElementById("sec2");
+        clock2_mins_box = document.getElementById("min2");
+        clock2_mins = parseInt(clock2_mins_box.textContent);
+        clock2_secs = parseInt(clock2_secs_box.textContent);
+        if (clock2_secs + parseInt(increment) > 60) {
+            clock2_mins += 1;
+            clock2_secs = (clock2_secs + parseInt(increment)) - 60
+            document.getElementById("min2").textContent = addZero(clock2_mins)
+            document.getElementById("sec2").textContent = addZero(clock2_secs)
+        } else if (clock2_secs + parseInt(increment) == 60) {
+            clock2_mins += 1;
+            clock2_secs = 0;
+            document.getElementById("min2").textContent = addZero(clock2_mins)
+            document.getElementById("sec2").textContent = addZero(clock2_secs)
+        } else {
+            document.getElementById("sec2").textContent = addZero(clock2_secs + parseInt(increment))
+        }
+    }
+}
 
 // -----------------------------------------------------------------------------------
 // PIECES EVENT LISTENERS
@@ -788,7 +806,6 @@ $(".chess-board").mousemove(function (e) {
 
 });
 
-
 //funcion que gestiona el evento mousedown al draggear una pieza
 $(".chess-board").mousedown(function(e){
     let element = e.target.closest(".box") //element == pieza a ser arrastrada
@@ -813,7 +830,7 @@ $(".chess-board").mousedown(function(e){
 })
 
 
-// TODO: TENER EN CUENTA EL CASO DE QUE EL MOUSEUP OCURRA FUERA DEL TABLERO
+//TODO: TENER EN CUENTA EL CASO DE QUE EL MOUSEUP OCURRA FUERA DEL TABLERO
 //funcion que gestiona el evento mouseup, aka el soltar una pieza draggeada en una casilla
 $(".chess-board").mouseup(function (evento) {
     if (!skip_mouseup){
