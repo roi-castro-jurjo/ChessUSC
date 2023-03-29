@@ -129,7 +129,7 @@ function move(position1, position2) {
 }
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
-function getMoves(box) {
+function getPieceMoves(box) {
     possibleMoves = []
     let piece = box.children[0].dataset.piece
     if (piece == "pawn"){
@@ -137,7 +137,7 @@ function getMoves(box) {
     }else if (piece == "bishop"){
         getBishopMoves(box.id, box.children[0].dataset.color)
     }else if (piece == "knight"){
-        getKingMoves(box.id, box.children[0].dataset.color)
+        getKnightMoves(box.id, box.children[0].dataset.color)
     }else if (piece == "rook"){
         getRookMoves(box.id, box.children[0].dataset.color)
     }else if (piece == "queen"){
@@ -334,7 +334,90 @@ function getRookMoves(position, color){
 
 //funcion que devuelve los movimientos posibles de un caballo
 function getKnightMoves(position, color){
-    possibleMoves = []
+    let p = position.split('-')
+    let x = p[0]
+    let y = p[1]
+    let x_aux = x
+    let y_aux = parseInt(y)
+
+    if (x_aux > 'B'){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 2)
+        
+        y_aux = y_aux - 1
+        if (y_aux > 0){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+        y_aux = y_aux + 2
+        if (y_aux < 9){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    if(x_aux < 'G'){
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 2)
+        
+        y_aux = y_aux - 1
+        if (y_aux > 0){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+        y_aux = y_aux + 2
+        if (y_aux < 9){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    if (y_aux > 2){
+        y_aux = y_aux - 2
+
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
+        if (x_aux < 'I'){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 2)
+        if (x_aux >= 'A'){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    if (y_aux < 7){
+        y_aux = y_aux + 2
+
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) + 1)
+        if (x_aux < 'I'){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+
+        x_aux = String.fromCharCode(x_aux.charCodeAt(0) - 2)
+        if (x_aux >= 'A'){
+            if(!checkAndGetCaptures(x_aux, y_aux, color)){
+                possibleMoves.push(x_aux + "-" + y_aux)
+            }
+        }
+    }
 }
 
 
@@ -534,7 +617,7 @@ function boxClicked(e) {
             if (possibleMoves != null) {
             unHighlightPossibleMoves()
         }
-            getMoves(element)
+            getPieceMoves(element)
             highlightPossibleMoves()
             clicked = 1
         }
@@ -544,11 +627,11 @@ function boxClicked(e) {
         }
         if (element.hasChildNodes() && element.children[0].dataset.color == turn) {
             firstSelection = selectPiece(element, turn)
-            getMoves(element)
+            getPieceMoves(element)
             highlightPossibleMoves()
         } else {
             //FORMA PROVISIONAL DE ASEGURARSE DE QUE LOS PEONES SOLO SE MUEVAN A LAS CASILLAS QUE ES LEGAL QUE SE MUEVAN
-            if (document.getElementById(firstSelection).children[0].dataset.piece != "king" && document.getElementById(firstSelection).children[0].dataset.piece != "knight"){
+            if (document.getElementById(firstSelection).hasChildNodes() && document.getElementById(firstSelection).children[0].dataset.piece != "king"){
                 if (possibleMoves.includes(element.id)){
                     clicked = 0
                     firstBox = document.getElementById(firstSelection)
@@ -617,7 +700,7 @@ $(".chess-board").mousedown(function(e){
             if (possibleMoves != []) {
                 unHighlightPossibleMoves()
             }
-            getMoves(element)
+            getPieceMoves(element)
             highlightPossibleMoves()
         }
     } else { //si element no tiene una pieza valida, se salta el siguiente evento mouseup
@@ -639,7 +722,7 @@ $(".chess-board").mouseup(function (evento) {
             if (possibleMoves != null) {
                 unHighlightPossibleMoves()
             }
-            getMoves(dragged)
+            getPieceMoves(dragged)
             highlightPossibleMoves()
             
             
@@ -649,7 +732,7 @@ $(".chess-board").mouseup(function (evento) {
             dragged.children[0].children[0].style.position = "relative"
             
         } else {
-            if(dragged.children[0].dataset.piece != "king" && dragged.children[0].dataset.piece != "knight"){
+            if(dragged.hasChildNodes() &&  dragged.children[0].dataset.piece != "king"){
                 if(possibleMoves.includes(element.id)){
                     if (possibleMoves != null) {
                         unHighlightPossibleMoves()
