@@ -14,6 +14,7 @@ let elementPos = null
 
 let possibleMovesStyles = []    //informacion de los movimientos posibles
 let possibleMoves = []
+let aux_PossibleMoves = []
 
 let lastMove = null             //informacion del ultimo movimiento efectuado
 let lastMoveStyles = null
@@ -134,6 +135,7 @@ function getPieceMoves(box) {
     let piece = box.children[0].dataset.piece
     if (piece == "pawn"){
          getPawnMoves(box.id, box.children[0].dataset.color)
+         pawnCaptures = []
     }else if (piece == "bishop"){
         getBishopMoves(box.id, box.children[0].dataset.color)
     }else if (piece == "knight"){
@@ -147,9 +149,43 @@ function getPieceMoves(box) {
     }
 }
 
+let pawnCaptures = []
 
-function isCheck(){
+function getAllMoves(color){
+    possibleMoves = []
+    boxes.forEach((box) => {
+        if(box.hasChildNodes()){
+            let piece = box.children[0].dataset.piece
+            if (box.children[0].dataset.color != color){
+                if (piece == "pawn"){
+                    getPawnMoves(box.id, box.children[0].dataset.color)
+                    possibleMoves.push.apply(possibleMoves, pawnCaptures)
+                    pawnCaptures = []
+                }else if (piece == "bishop"){
+                    getBishopMoves(box.id, box.children[0].dataset.color)
+                }else if (piece == "knight"){
+                    getKnightMoves(box.id, box.children[0].dataset.color)
+                }else if (piece == "rook"){
+                    getRookMoves(box.id, box.children[0].dataset.color)
+                }else if (piece == "queen"){
+                    getQueenMoves(box.id, box.children[0].dataset.color)
+                }
+            }
 
+        }
+    })
+}
+
+
+function isCheck(position, color){
+    getAllMoves(color)
+    if(possibleMoves.includes(position)){
+        possibleMoves = []
+        return 1
+    } else {
+        possibleMoves = []
+        return 0
+    }
 }
 
 
@@ -201,10 +237,12 @@ function getPawnCaptures(nextY, x){
     if (x < 'H' && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).hasChildNodes() && document.getElementById(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY)).children[0].dataset.color != turn){
         possibleMoves.push(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY))
     }
+    pawnCaptures.push(String.fromCharCode(x.charCodeAt(0) + 1).concat('-',nextY))
 
     if (x > 'A' && document.getElementById(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY)).hasChildNodes() && document.getElementById(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY)).children[0].dataset.color != turn){
         possibleMoves.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
     }
+    pawnCaptures.push(String.fromCharCode(x.charCodeAt(0) - 1).concat('-',nextY))
 }
 
 
@@ -217,6 +255,7 @@ function checkAndGetCaptures(x, y, color){
     if(document.getElementById(x + "-" + y).hasChildNodes()){
         if(document.getElementById(x + "-" + y).children[0].dataset.color != color){
             possibleMoves.push(x + "-" + y)
+            aux_PossibleMoves.push(x + "-" + y)
         }
         return 1
     } else {
@@ -430,7 +469,85 @@ function getQueenMoves(position, color){
 
 //funcion que devuelve los movimientos posibles de un rey
 function getKingMoves(position, color){
-    possibleMoves = []
+    let p = position.split('-')
+    let x = p[0]
+    let y = p[1]
+    let x_aux = x
+    let y_aux = parseInt(y)
+    aux_PossibleMoves = []
+    
+
+    if (x < 'H'){ 
+        x_aux = String.fromCharCode(x.charCodeAt(0) + 1)
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla derecha
+            aux_PossibleMoves.push(x_aux + "-" + y_aux)
+        } 
+        
+        if (y_aux < 8){
+            y_aux = y_aux + 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla derecha-arriba
+                aux_PossibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+
+        if (y_aux > 1){
+            y_aux = y_aux - 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla derecha-abajo
+                aux_PossibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    if (x > 'A'){
+        x_aux = String.fromCharCode(x.charCodeAt(0) - 1)
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda
+            aux_PossibleMoves.push(x_aux + "-" + y_aux)
+        }
+        
+        if (y_aux < 8){
+            y_aux = y_aux + 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-arriba
+                aux_PossibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+
+        if (y_aux > 1){
+            y_aux = y_aux - 1
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-abajo
+                aux_PossibleMoves.push(x_aux + "-" + y_aux)
+            }
+            y_aux = parseInt(y)
+        }
+    }
+
+    x_aux = x
+    y_aux = parseInt(y)
+
+    if (y_aux < 7){
+        y_aux = y_aux + 1
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-abajo
+                aux_PossibleMoves.push(x_aux + "-" + y_aux)
+            }
+        y_aux = parseInt(y)
+    }
+
+    if (y_aux > 1){
+        y_aux = y_aux - 1 
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-abajo
+                aux_PossibleMoves.push(x_aux + "-" + y_aux)
+            }
+        y_aux = parseInt(y)
+    }
+
+    aux_PossibleMoves.push.apply(aux_PossibleMoves, possibleMoves)
+    possibleMoves = aux_PossibleMoves
+
 }
 
 
@@ -630,36 +747,22 @@ function boxClicked(e) {
             getPieceMoves(element)
             highlightPossibleMoves()
         } else {
-            //FORMA PROVISIONAL DE ASEGURARSE DE QUE LOS PEONES SOLO SE MUEVAN A LAS CASILLAS QUE ES LEGAL QUE SE MUEVAN
-            if (document.getElementById(firstSelection).hasChildNodes() && document.getElementById(firstSelection).children[0].dataset.piece != "king"){
-                if (possibleMoves.includes(element.id)){
-                    clicked = 0
-                    firstBox = document.getElementById(firstSelection)
-                    firstBox.children[0].children[0].style.position = "absolute";
-                    moveAnimation(firstBox, element)
-                    if (lastMove != null) {
-                        unHighlight(lastMove)
-                    }
-                    saveLastMove(firstSelection, element.id)
-                    endTurn()
-                    highlightLastMove(lastMove)
-                } else {
-                    clicked = 0
-                    return
-                }
-
-            } else { //CODIGO QUE SE APLICA A LAS DEMAS PIEZAS QUE NO SEAN PEONES PARA QUE PUEDAN MOVERSE A CUALQUIER CASILLA EN FALTA DE IMPLEMENTAR LA FUNCIÓN DE MOVIMIENTOS POSIBLES DEL RESTO DE PIEZAS
+            if (possibleMoves.includes(element.id)){
                 clicked = 0
                 firstBox = document.getElementById(firstSelection)
-                firstBox.children[0].children[0].style.position = "absolute";
+                if(firstBox.hasChildNodes()){
+                    firstBox.children[0].children[0].style.position = "absolute";
+                }
                 moveAnimation(firstBox, element)
                 if (lastMove != null) {
                     unHighlight(lastMove)
                 }
-
                 saveLastMove(firstSelection, element.id)
                 endTurn()
                 highlightLastMove(lastMove)
+            } else {
+                clicked = 0
+                return
             }
         }
     }
@@ -732,33 +835,8 @@ $(".chess-board").mouseup(function (evento) {
             dragged.children[0].children[0].style.position = "relative"
             
         } else {
-            if(dragged.hasChildNodes() &&  dragged.children[0].dataset.piece != "king"){
-                if(possibleMoves.includes(element.id)){
-                    if (possibleMoves != null) {
-                        unHighlightPossibleMoves()
-                    }
-                    if(document.getElementById(dragged_box_id).hasChildNodes()){
-                        document.getElementById(dragged_box_id).children[0].children[0].classList.remove("pointer")
-                    }
-                    
-                    move(dragged_box_id, element.id)
-                    if (lastMove != null) {
-                        unHighlight(lastMove)
-                    }
-                    saveLastMove(dragged_box_id, element.id)
-                    endTurn()
-                    highlightLastMove(lastMove)
-                } else {
-                    dragged.children[0].children[0].classList.remove("pointer")
-                    document.getElementById(dragged.id).children[0].children[0].style.top = 0
-                    document.getElementById(dragged.id).children[0].children[0].style.left = 0
-                    dragged.children[0].children[0].style.position = "relative"
-
-                    if (possibleMoves != null) {
-                        unHighlightPossibleMoves()
-                    }
-                }
-            } else {
+            
+            if(possibleMoves.includes(element.id)){
                 if (possibleMoves != null) {
                     unHighlightPossibleMoves()
                 }
@@ -773,7 +851,17 @@ $(".chess-board").mouseup(function (evento) {
                 saveLastMove(dragged_box_id, element.id)
                 endTurn()
                 highlightLastMove(lastMove)
+            } else {
+                dragged.children[0].children[0].classList.remove("pointer")
+                document.getElementById(dragged.id).children[0].children[0].style.top = 0
+                document.getElementById(dragged.id).children[0].children[0].style.left = 0
+                dragged.children[0].children[0].style.position = "relative"
+
+                if (possibleMoves != null) {
+                    unHighlightPossibleMoves()
+                }
             }
+            
         }
     } else {
         skip_mouseup = 0
