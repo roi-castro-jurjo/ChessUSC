@@ -148,6 +148,10 @@ function getMoves(box) {
 }
 
 
+function isCheck(){
+
+}
+
 
 // -----------------------------------------------------------------------------------
 // PAWN MOVES
@@ -215,6 +219,8 @@ function checkAndGetCaptures(x, y, color){
             possibleMoves.push(x + "-" + y)
         }
         return 1
+    } else {
+        return 0
     }
 }
 
@@ -334,7 +340,8 @@ function getKnightMoves(position, color){
 
 //funcion que devuelve los movimientos posibles de una reina
 function getQueenMoves(position, color){
-    possibleMoves = []
+    getBishopMoves(position, color)
+    getRookMoves(position, color)
 }
 
 
@@ -541,7 +548,7 @@ function boxClicked(e) {
             highlightPossibleMoves()
         } else {
             //FORMA PROVISIONAL DE ASEGURARSE DE QUE LOS PEONES SOLO SE MUEVAN A LAS CASILLAS QUE ES LEGAL QUE SE MUEVAN
-            if (document.getElementById(firstSelection).children[0].dataset.piece == "pawn" || document.getElementById(firstSelection).children[0].dataset.piece == "rook"){
+            if (document.getElementById(firstSelection).children[0].dataset.piece != "king" && document.getElementById(firstSelection).children[0].dataset.piece != "knight"){
                 if (possibleMoves.includes(element.id)){
                     clicked = 0
                     firstBox = document.getElementById(firstSelection)
@@ -642,7 +649,7 @@ $(".chess-board").mouseup(function (evento) {
             dragged.children[0].children[0].style.position = "relative"
             
         } else {
-            if(dragged.children[0].dataset.piece == "pawn" || dragged.children[0].dataset.piece == "rook"){
+            if(dragged.children[0].dataset.piece != "king" && dragged.children[0].dataset.piece != "knight"){
                 if(possibleMoves.includes(element.id)){
                     if (possibleMoves != null) {
                         unHighlightPossibleMoves()
