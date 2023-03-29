@@ -54,8 +54,8 @@ body {
 }
 
 .chess-board{
-    width: 602px;
-    height: 602px;
+    width: 604px;
+    height: 604px;
     display: grid;
     grid-template-rows: repeat(8, calc(600px / 8));
     grid-template-columns: repeat(8, calc(600px / 8));
