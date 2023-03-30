@@ -3,112 +3,112 @@
         "lightpieces":[
             {
                 "position": "A-1",
-                "icon": "images/chess-icons/light/chess-rook-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-rook-light.svg",
                 "points": 5,
                 "piece": "rook",
                 "color": "white"
             },
             {
                 "position": "B-1",
-                "icon": "images/chess-icons/light/chess-knight-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-knight-light.svg",
                 "points": 3,
                 "piece": "knight",
                 "color": "white"
             },
             {
                 "position": "C-1",
-                "icon": "images/chess-icons/light/chess-bishop-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-bishop-light.svg",
                 "points": 3,
                 "piece": "bishop",
                 "color": "white"
             },
             {
                 "position": "D-1",
-                "icon": "images/chess-icons/light/chess-queen-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-queen-light.svg",
                 "points": 9,
                 "piece": "queen",
                 "color": "white"
             },
             {
                 "position": "E-1",
-                "icon": "images/chess-icons/light/chess-king-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-king-light.svg",
                 "points": 1000,
                 "piece": "king",
                 "color": "white"
             },
             {
                 "position": "F-1",
-                "icon": "images/chess-icons/light/chess-bishop-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-bishop-light.svg",
                 "points": 3,
                 "piece": "bishop",
                 "color": "white"
             },
             {
                 "position": "G-1",
-                "icon": "images/chess-icons/light/chess-knight-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-knight-light.svg",
                 "points": 3,
                 "piece": "knight",
                 "color": "white"
             },
             {
                 "position": "H-1",
-                "icon": "images/chess-icons/light/chess-rook-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-rook-light.svg",
                 "points": 5,
                 "piece": "rook",
                 "color": "white"
             },
             {
                 "position": "A-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
             },
             {
                 "position": "B-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
             },
             {
                 "position": "C-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
             },
             {
                 "position": "D-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
             },
             {
                 "position": "E-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
             },
             {
                 "position": "F-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
             },
             {
                 "position": "G-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
             },
             {
                 "position": "H-2",
-                "icon": "images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"
@@ -117,112 +117,112 @@
         "blackpieces":[
             {
                 "position": "A-8",
-                "icon": "images/chess-icons/black/chess-rook-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-rook-black.svg",
                 "points": 5,
                 "piece": "rook",
                 "color": "black"
             },
             {
                 "position": "B-8",
-                "icon": "images/chess-icons/black/chess-knight-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-knight-black.svg",
                 "points": 3,
                 "piece": "knight",
                 "color": "black"
             },
             {
                 "position": "C-8",
-                "icon": "images/chess-icons/black/chess-bishop-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-bishop-black.svg",
                 "points": 3,
                 "piece": "bishop",
                 "color": "black"
             },
             {
                 "position": "D-8",
-                "icon": "images/chess-icons/black/chess-queen-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-queen-black.svg",
                 "points": 9,
                 "piece": "queen",
                 "color": "black"
             },
             {
                 "position": "E-8",
-                "icon": "images/chess-icons/black/chess-king-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-king-black.svg",
                 "points": 1000,
                 "piece": "king",
                 "color": "black"
             },
             {
                 "position": "F-8",
-                "icon": "images/chess-icons/black/chess-bishop-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-bishop-black.svg",
                 "points": 3,
                 "piece": "bishop",
                 "color": "black"
             },
             {
                 "position": "G-8",
-                "icon": "images/chess-icons/black/chess-knight-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-knight-black.svg",
                 "points": 3,
                 "piece": "knight",
                 "color": "black"
             },
             {
                 "position": "H-8",
-                "icon": "images/chess-icons/black/chess-rook-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-rook-black.svg",
                 "points": 5,
                 "piece": "rook",
                 "color": "black"
             },
             {
                 "position": "A-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"
             },
             {
                 "position": "B-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"
             },
             {
                 "position": "C-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"
             },
             {
                 "position": "D-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"
             },
             {
                 "position": "E-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"
             },
             {
                 "position": "F-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"
             },
             {
                 "position": "G-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"
             },
             {
                 "position": "H-7",
-                "icon": "images/chess-icons/black/chess-pawn-black.svg",
+                "icon": "assets/images/chess-icons/black/chess-pawn-black.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "black"

@@ -113,9 +113,9 @@ function saveLastMove(position1, position2) {
 //funcion de implementacion de movimiento. Dada dos posiciones del tablero, intercambia sus contenidos y reproduce el sonido correspondiente
 function move(position1, position2) {
     if(document.getElementById(position2).hasChildNodes()){
-        var audio = new Audio('sounds/capture.mp3');
+        var audio = new Audio('assets/sounds/capture.mp3');
     } else {
-        var audio = new Audio('sounds/move-Self.mp3');
+        var audio = new Audio('assets/sounds/move-Self.mp3');
     }
     audio.play()
     document.getElementById(position2).innerHTML = document.getElementById(position1).innerHTML
