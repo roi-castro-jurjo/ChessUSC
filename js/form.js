@@ -11,21 +11,5 @@ $(submitButton).on('click', function() {
         alert("Invalid password")
         return
     }
-    let form = document.querySelector('form');
-    let data = formRecolector(form.elements);
-    const dataContainer = document.getElementsByClassName('form-prueba');
-    dataContainer.textContent = JSON.stringify(data, null, '  ');
-    console.log(dataContainer.textContent)
 });
-
-//funcion que recoge la informacion de los elementos del Form
-const formRecolector = (elements) =>
-    [].reduce.call(
-    elements,
-    (data, element) => {
-      data[element.name] = element.value;
-      return data;
-    },
-    {}
-);
 

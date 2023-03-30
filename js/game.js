@@ -31,7 +31,7 @@ let increment = localStorage.getItem("increment")
 
 //funcion que accede al fichero json con la definicion de las piezas
 async function loadPieces(){
-    const response = await fetch('../json/pieces.json');
+    const response = await fetch('../data/json/pieces.json');
     const data = await response.json();
     displayChessPieces(data)
 }
@@ -46,7 +46,7 @@ function displayChessPieces(piecesObject) {
 
         box.innerHTML += 
             `<div class="piece white" style="pointer-events: none;" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
-                <img id="prueba" src="${piece.icon}" alt="Chess Piece" >
+                <img id="prueba" src="${piece.icon}" alt="piece" >
             </div>`
     })
     piecesObject.pieces.blackpieces.forEach(piece => {
@@ -54,7 +54,7 @@ function displayChessPieces(piecesObject) {
 
         box.innerHTML += 
         `<div class="piece black" style="pointer-events: none;" data-piece="${piece.piece}" data-points="${piece.points}" data-color="${piece.color}">
-                <img src="${piece.icon}" alt="Chess Piece" >
+                <img src="${piece.icon}" alt="piece" >
             </div>`
     })
     //se añade el listener a todas las casillas
@@ -130,6 +130,7 @@ function move(position1, position2) {
     if(increment != 0) {
         addIncrement()
     }
+
 }
 
 //funcion que devuelve la lista de posibles movimientos en forma de array de posiciones
@@ -191,8 +192,7 @@ function getAllEnemyMoves(color){
     })
 }
 
-function isCheck(position, color){
-    //getAllEnemyMoves(color)
+function isCheck(position){
     if(enemyMoves.includes(position)){
         return 1
     } else {
@@ -579,13 +579,13 @@ function getKingMoves(position, color){
 
     if (x < 'H'){ 
         x_aux = String.fromCharCode(x.charCodeAt(0) + 1)
-        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla derecha
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla derecha
             aux_PossibleMoves.push(x_aux + "-" + y_aux)
         } 
         
         if (y_aux < 8){
             y_aux = y_aux + 1
-            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla derecha-arriba
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla derecha-arriba
                 aux_PossibleMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
@@ -593,7 +593,7 @@ function getKingMoves(position, color){
 
         if (y_aux > 1){
             y_aux = y_aux - 1
-            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla derecha-abajo
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla derecha-abajo
                 aux_PossibleMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
@@ -605,13 +605,13 @@ function getKingMoves(position, color){
 
     if (x > 'A'){
         x_aux = String.fromCharCode(x.charCodeAt(0) - 1)
-        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla izquierda
             aux_PossibleMoves.push(x_aux + "-" + y_aux)
         }
         
         if (y_aux < 8){
             y_aux = y_aux + 1
-            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-arriba
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla izquierda-arriba
                 aux_PossibleMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
@@ -619,7 +619,7 @@ function getKingMoves(position, color){
 
         if (y_aux > 1){
             y_aux = y_aux - 1
-            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-abajo
+            if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla izquierda-abajo
                 aux_PossibleMoves.push(x_aux + "-" + y_aux)
             }
             y_aux = parseInt(y)
@@ -631,7 +631,7 @@ function getKingMoves(position, color){
 
     if (y_aux < 8){
         y_aux = y_aux + 1
-        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-abajo
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla izquierda-abajo
                 aux_PossibleMoves.push(x_aux + "-" + y_aux)
             }
         y_aux = parseInt(y)
@@ -639,7 +639,7 @@ function getKingMoves(position, color){
 
     if (y_aux > 1){
         y_aux = y_aux - 1 
-        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux, color)){ //caso casilla izquierda-abajo
+        if(!checkAndGetCaptures(x_aux, y_aux, color) && !isCheck(x_aux + "-" + y_aux)){ //caso casilla izquierda-abajo
                 aux_PossibleMoves.push(x_aux + "-" + y_aux)
             }
         y_aux = parseInt(y)
@@ -752,7 +752,17 @@ function highlightPossibleMoves() {
     if (possibleMoves != []) {
         possibleMoves.forEach(move => {
             possibleMovesStyles.push(document.getElementById(move).style.backgroundColor)
-            document.getElementById(move).style.backgroundColor = "red"
+            if (window.getComputedStyle(document.getElementById(move)).getPropertyValue("background-color") == "rgb(0, 0, 0)"){
+                document.getElementById(move).style.background = "#004445"
+            } else {
+                document.getElementById(move).style.background = "#2c786c"
+            }
+            
+
+
+            
+            
+            
         })
     }
 }
@@ -789,8 +799,8 @@ function moveAnimation(firstBox, secondBox) {
     var posX = 0
     var posY = 0
     first = firstBox.children[0].children[0]
-    firstBoxPos = firstBox.getBoundingClientRect();
-    secondBoxPos = secondBox.getBoundingClientRect();
+    let firstBoxPos = firstBox.getBoundingClientRect();
+    let secondBoxPos = secondBox.getBoundingClientRect();
     topDiff = secondBoxPos.top - firstBoxPos.top
     leftDiff = secondBoxPos.left - firstBoxPos.left
     clearInterval(id);
@@ -832,6 +842,37 @@ function moveAnimation(firstBox, secondBox) {
         if (Ydone && Xdone){
             clearInterval(id)
             move(firstBox.id, secondBox.id)
+
+            boxes.forEach((box) => {
+                if (box.hasChildNodes() && box.children[0].dataset.piece == "king" && box.children[0].dataset.color != turn){ //Avisar cuando haces jaque
+                    getAllEnemyMoves(box.children[0].dataset.color)
+                    if (isCheck(box.id)){
+                        var audio = new Audio('assets/sounds/move-check.webm');
+                        audio.play()        
+                    }
+                }  
+
+                if (box.hasChildNodes() && box.children[0].dataset.piece == "king" && box.children[0].dataset.color == turn){ //Comrpibar si estas en jaque
+                    getAllEnemyMoves(box.children[0].dataset.color)
+                    
+                    if (isCheck(box.id)){
+                        move(secondBox.id, firstBox.id)
+                        if (lastMove != null) {
+                            unHighlight(lastMove)
+                        }
+                        endTurn()
+                        var audio = new Audio('assets/sounds/illegal.webm');
+                        audio.play()
+                    } else {
+                        if (lastMove != null) {
+                            unHighlight(lastMove)
+                        }
+                        saveLastMove(firstBox.id, secondBox.id)
+                    }
+                }  
+            })
+            endTurn()
+            highlightLastMove(lastMove)
         }
     } 
 }
@@ -978,12 +1019,7 @@ function boxClicked(e) {
                         firstBox.children[0].children[0].style.position = "absolute";
                     }
                     moveAnimation(firstBox, element)
-                    if (lastMove != null) {
-                        unHighlight(lastMove)
-                    }
-                    saveLastMove(firstSelection, element.id)
-                    endTurn()
-                    highlightLastMove(lastMove)
+                    
                 } else {
                     clicked = 0
                     return
@@ -1079,7 +1115,37 @@ $(".chess-board").mouseup(function (evento) {
                     if (lastMove != null) {
                         unHighlight(lastMove)
                     }
-                    saveLastMove(dragged_box_id, element.id)
+
+                
+                    boxes.forEach((box) => {
+                        if (box.hasChildNodes() && box.children[0].dataset.piece == "king" && box.children[0].dataset.color != turn){ //Avisar cuando haces jaque
+                            getAllEnemyMoves(box.children[0].dataset.color)
+
+                            if (isCheck(box.id)){
+                                var audio = new Audio('assets/sounds/move-check.webm');
+                                console.log("check in " + box.id)
+                                audio.play()        
+                            }
+                        }  
+
+                        if (box.hasChildNodes() && box.children[0].dataset.piece == "king" && box.children[0].dataset.color == turn){ //Comrpibar si estas en jaque
+                            getAllEnemyMoves(box.children[0].dataset.color)
+                            
+                            if (isCheck(box.id)){
+                                move(element.id, dragged_box_id)
+                                if (lastMove != null) {
+                                    unHighlight(lastMove)
+                                }
+                                endTurn()
+                                var audio = new Audio('assets/sounds/illegal.webm');
+                                audio.play()
+                            } else {
+                                saveLastMove(dragged_box_id, element.id)
+                            }
+                        }  
+                    })
+
+                    
                     endTurn()
                     highlightLastMove(lastMove)
                 } else {
