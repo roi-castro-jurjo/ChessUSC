@@ -951,41 +951,43 @@ function addIncrement() {
  *      2. Selecciona la casilla objetivo
  */
 function boxClicked(e) {
-    let element = e.target.closest(".box")
-    if ((clicked == 0) && element.hasChildNodes()) {
-        if ((firstSelection = selectPiece(element, turn)) != null) {
+    if (e.which == 1){
+        let element = e.target.closest(".box")
+        if ((clicked == 0) && element.hasChildNodes()) {
+            if ((firstSelection = selectPiece(element, turn)) != null) {
+                if (possibleMoves != null) {
+                unHighlightPossibleMoves()
+            }
+                getPieceMoves(element)
+                highlightPossibleMoves()
+                clicked = 1
+            }
+        } else if((clicked == 1) && (firstSelection != element.id)){
             if (possibleMoves != null) {
-            unHighlightPossibleMoves()
-        }
-            getPieceMoves(element)
-            highlightPossibleMoves()
-            clicked = 1
-        }
-    } else if((clicked == 1) && (firstSelection != element.id)){
-        if (possibleMoves != null) {
-            unHighlightPossibleMoves()
-        }
-        if (element.hasChildNodes() && element.children[0].dataset.color == turn) {
-            firstSelection = selectPiece(element, turn)
-            getPieceMoves(element)
-            highlightPossibleMoves()
-        } else {
-            if (possibleMoves.includes(element.id)){
-                clicked = 0
-                firstBox = document.getElementById(firstSelection)
-                if(firstBox.hasChildNodes()){
-                    firstBox.children[0].children[0].style.position = "absolute";
-                }
-                moveAnimation(firstBox, element)
-                if (lastMove != null) {
-                    unHighlight(lastMove)
-                }
-                saveLastMove(firstSelection, element.id)
-                endTurn()
-                highlightLastMove(lastMove)
+                unHighlightPossibleMoves()
+            }
+            if (element.hasChildNodes() && element.children[0].dataset.color == turn) {
+                firstSelection = selectPiece(element, turn)
+                getPieceMoves(element)
+                highlightPossibleMoves()
             } else {
-                clicked = 0
-                return
+                if (possibleMoves.includes(element.id)){
+                    clicked = 0
+                    firstBox = document.getElementById(firstSelection)
+                    if(firstBox.hasChildNodes()){
+                        firstBox.children[0].children[0].style.position = "absolute";
+                    }
+                    moveAnimation(firstBox, element)
+                    if (lastMove != null) {
+                        unHighlight(lastMove)
+                    }
+                    saveLastMove(firstSelection, element.id)
+                    endTurn()
+                    highlightLastMove(lastMove)
+                } else {
+                    clicked = 0
+                    return
+                }
             }
         }
     }
@@ -1013,86 +1015,89 @@ $(".chess-board").mousemove(function (e) {
 
 //funcion que gestiona el evento mousedown al draggear una pieza
 $(".chess-board").mousedown(function(e){
-    let element = e.target.closest(".box") //element == pieza a ser arrastrada
-    if (element.hasChildNodes() && element.children[0].dataset.color == turn){  //comprobacion de element tiene una pieza valida
-        dragged_box_id = element.id
-        element.children[0].children[0].style.position = "relative"
-        element.children[0].children[0].classList.add("pointer")
-        l = $(".pointer").offset().left
-        t = $(".pointer").offset().top
+    if (e.which == 1){
+        let element = e.target.closest(".box") //element == pieza a ser arrastrada
+        if (element.hasChildNodes() && element.children[0].dataset.color == turn){  //comprobacion de element tiene una pieza valida
+            dragged_box_id = element.id
+            element.children[0].children[0].style.position = "relative"
+            element.children[0].children[0].classList.add("pointer")
+            l = $(".pointer").offset().left
+            t = $(".pointer").offset().top
 
-        if ((firstSelection = selectPiece(element, turn)) != null) {
-            if (possibleMoves != []) {
-                unHighlightPossibleMoves()
+            if ((firstSelection = selectPiece(element, turn)) != null) {
+                if (possibleMoves != []) {
+                    unHighlightPossibleMoves()
+                }
+                getPieceMoves(element)
+                highlightPossibleMoves()
             }
-            getPieceMoves(element)
-            highlightPossibleMoves()
+        } else { //si element no tiene una pieza valida, se salta el siguiente evento mouseup
+            skip_mouseup = 1
         }
-    } else { //si element no tiene una pieza valida, se salta el siguiente evento mouseup
-        skip_mouseup = 1
     }
-
 })
 
 
 //TODO: TENER EN CUENTA EL CASO DE QUE EL MOUSEUP OCURRA FUERA DEL TABLERO
 //funcion que gestiona el evento mouseup, aka el soltar una pieza draggeada en una casilla
 $(".chess-board").mouseup(function (evento) {
-    if (!skip_mouseup){
-        let element = evento.target.closest(".box")
-        let dragged = document.getElementById(dragged_box_id)
+    if (evento.which == 1){
+        if (!skip_mouseup){
+            let element = evento.target.closest(".box")
+            let dragged = document.getElementById(dragged_box_id)
 
 
-        if ((element.hasChildNodes() && element.children[0].dataset.color == turn) || dragged.id == element.id){
-            if (possibleMoves != null) {
-                unHighlightPossibleMoves()
-            }
-            getPieceMoves(dragged)
-            highlightPossibleMoves()
-            
-            
-            dragged.children[0].children[0].classList.remove("pointer")
-            document.getElementById(dragged.id).children[0].children[0].style.top = 0
-            document.getElementById(dragged.id).children[0].children[0].style.left = 0
-            dragged.children[0].children[0].style.position = "relative"
-
-            if (dragged.id != element.id){
-                var audio = new Audio('assets/sounds/illegal.webm');
-                audio.play()
-            }
-            
-        } else {
-            
-            if(possibleMoves.includes(element.id)){
+            if ((element.hasChildNodes() && element.children[0].dataset.color == turn) || dragged.id == element.id){
                 if (possibleMoves != null) {
                     unHighlightPossibleMoves()
                 }
-                if(document.getElementById(dragged_box_id).hasChildNodes()){
-                    document.getElementById(dragged_box_id).children[0].children[0].classList.remove("pointer")
-                }
+                getPieceMoves(dragged)
+                highlightPossibleMoves()
                 
-                move(dragged_box_id, element.id)
-                if (lastMove != null) {
-                    unHighlight(lastMove)
-                }
-                saveLastMove(dragged_box_id, element.id)
-                endTurn()
-                highlightLastMove(lastMove)
-            } else {
+                
                 dragged.children[0].children[0].classList.remove("pointer")
                 document.getElementById(dragged.id).children[0].children[0].style.top = 0
                 document.getElementById(dragged.id).children[0].children[0].style.left = 0
                 dragged.children[0].children[0].style.position = "relative"
 
-                if (possibleMoves != null) {
-                    unHighlightPossibleMoves()
+                if (dragged.id != element.id){
+                    var audio = new Audio('assets/sounds/illegal.webm');
+                    audio.play()
                 }
-                var audio = new Audio('assets/sounds/illegal.webm');
-                audio.play()
+                
+            } else {
+                
+                if(possibleMoves.includes(element.id)){
+                    if (possibleMoves != null) {
+                        unHighlightPossibleMoves()
+                    }
+                    if(document.getElementById(dragged_box_id).hasChildNodes()){
+                        document.getElementById(dragged_box_id).children[0].children[0].classList.remove("pointer")
+                    }
+                    
+                    move(dragged_box_id, element.id)
+                    if (lastMove != null) {
+                        unHighlight(lastMove)
+                    }
+                    saveLastMove(dragged_box_id, element.id)
+                    endTurn()
+                    highlightLastMove(lastMove)
+                } else {
+                    dragged.children[0].children[0].classList.remove("pointer")
+                    document.getElementById(dragged.id).children[0].children[0].style.top = 0
+                    document.getElementById(dragged.id).children[0].children[0].style.left = 0
+                    dragged.children[0].children[0].style.position = "relative"
+
+                    if (possibleMoves != null) {
+                        unHighlightPossibleMoves()
+                    }
+                    var audio = new Audio('assets/sounds/illegal.webm');
+                    audio.play()
+                }
+                
             }
-            
+        } else {
+            skip_mouseup = 0
         }
-    } else {
-        skip_mouseup = 0
     }
 })
