@@ -3,17 +3,6 @@
     src: url("../assets/fonts/Intro.otf") format("opentype");
 }
 
-@font-face {
-    font-family: 'WynfordLine';
-    src: url("../assets/fonts/WynfordLine-d95w6.otf") format("opentype");
-}
-
-@font-face {
-    font-family: 'WynfordObliqueLine';
-    src: url("../assets/fonts/WynfordObliqueLine-gx2dY.otf") format("opentype");
-}
-
-
 .hoverable{
   display:inline-block;
   backface-visibility: hidden;
