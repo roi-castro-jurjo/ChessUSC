@@ -4,16 +4,6 @@
 }
 
 @font-face {
-    font-family: 'WynfordLine';
-    src: url("../assets/fonts/WynfordLine-d95w6.otf") format("opentype");
-}
-
-@font-face {
-    font-family: 'WynfordObliqueLine';
-    src: url("../assets/fonts/WynfordObliqueLine-gx2dY.otf") format("opentype");
-}
-
-@font-face {
     font-family: 'digital';
     src: url("../assets/fonts/digital-7.ttf");
 }

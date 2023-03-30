@@ -1,4 +1,4 @@
-var path = '../xml/games.xml';
+var path = '../data/xml/games.xml';
 var xmlText = null;
 
 //funcion que se encarga leer y devolver el contenido de un fichero xml

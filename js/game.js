@@ -31,7 +31,7 @@ let increment = localStorage.getItem("increment")
 
 //funcion que accede al fichero json con la definicion de las piezas
 async function loadPieces(){
-    const response = await fetch('../json/pieces.json');
+    const response = await fetch('../data/json/pieces.json');
     const data = await response.json();
     displayChessPieces(data)
 }
