@@ -87,7 +87,7 @@
             },
             {
                 "position": "E-2",
-                "icon": "assets/assets/images/chess-icons/light/chess-pawn-light.svg",
+                "icon": "assets/images/chess-icons/light/chess-pawn-light.svg",
                 "points": 1,
                 "piece": "pawn",
                 "color": "white"

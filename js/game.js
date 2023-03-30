@@ -1055,6 +1055,11 @@ $(".chess-board").mouseup(function (evento) {
             document.getElementById(dragged.id).children[0].children[0].style.top = 0
             document.getElementById(dragged.id).children[0].children[0].style.left = 0
             dragged.children[0].children[0].style.position = "relative"
+
+            if (dragged.id != element.id){
+                var audio = new Audio('assets/sounds/illegal.webm');
+                audio.play()
+            }
             
         } else {
             
@@ -1082,6 +1087,8 @@ $(".chess-board").mouseup(function (evento) {
                 if (possibleMoves != null) {
                     unHighlightPossibleMoves()
                 }
+                var audio = new Audio('assets/sounds/illegal.webm');
+                audio.play()
             }
             
         }
