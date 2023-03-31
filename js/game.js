@@ -1074,16 +1074,15 @@ $(".chess-board").mousedown(function(e){
 })
 
 
-//TODO: TENER EN CUENTA EL CASO DE QUE EL MOUSEUP OCURRA FUERA DEL TABLERO
 //funcion que gestiona el evento mouseup, aka el soltar una pieza draggeada en una casilla
-$(".chess-board").mouseup(function (evento) {
+$(document).mouseup(function (evento) {
     if (evento.which == 1){
         if (!skip_mouseup){
             let element = evento.target.closest(".box")
             let dragged = document.getElementById(dragged_box_id)
 
 
-            if ((element.hasChildNodes() && element.children[0].dataset.color == turn) || dragged.id == element.id){
+            if (element == null || (element.hasChildNodes() && element.children[0].dataset.color == turn) || dragged.id == element.id){
                 if (possibleMoves != null) {
                     unHighlightPossibleMoves()
                 }
@@ -1096,7 +1095,7 @@ $(".chess-board").mouseup(function (evento) {
                 document.getElementById(dragged.id).children[0].children[0].style.left = 0
                 dragged.children[0].children[0].style.position = "relative"
 
-                if (dragged.id != element.id){
+                if (element != null && dragged.id != element.id){
                     var audio = new Audio('assets/sounds/illegal.webm');
                     audio.play()
                 }
