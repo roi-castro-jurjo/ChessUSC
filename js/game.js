@@ -910,6 +910,7 @@ const startTimer = () => {
                     clearInterval(timerId);
                     playing = false;
                     game_ended = true
+                    $("#game_end_reason")[0].innerHTML = "Las blancas ganan por tiempo."
                     $("#game_end").dialog("open")
 
                 }
@@ -933,6 +934,7 @@ const startTimer = () => {
                     clearInterval(timerId);
                     playing = false;
                     game_ended = true
+                     $("#game_end_reason")[0].innerHTML = "Las negras ganan por tiempo."
                     $("#game_end").dialog("open")
                 }
                 document.getElementById('sec2').textContent = addZero(clock2_secs);
