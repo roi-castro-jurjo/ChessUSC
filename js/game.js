@@ -22,6 +22,7 @@ let lastMove = null             //informacion del ultimo movimiento efectuado
 let lastMoveStyles = null
 
 let playing = false;
+let game_ended = 0
 let time = localStorage.getItem("time")
 let increment = localStorage.getItem("increment")
 
@@ -124,7 +125,7 @@ function move(position1, position2) {
     document.getElementById(position2).children[0].children[0].style.left = 0
     document.getElementById(position2).children[0].children[0].style.position = "relative";
     
-    if(!playing){
+    if(!playing && !game_ended){
         startTimer()
     }
     if(increment != 0) {
@@ -757,12 +758,6 @@ function highlightPossibleMoves() {
             } else {
                 document.getElementById(move).style.background = "#2c786c"
             }
-            
-
-
-            
-            
-            
         })
     }
 }
@@ -907,12 +902,16 @@ const startTimer = () => {
                 }
                 clock1_secs = clock1_secs - 1;
                 if (clock1_secs < 0) {
-                    if (clock1_secs == 0 && clock1_mins == 0) {
-                        clearInterval(timerId);
-                        playing = false;
-                    }
+                    
                     clock1_mins = clock1_mins - 1;
                     clock1_secs = 59;
+                }
+                if (clock1_secs == 0 && clock1_mins == 0) {
+                    clearInterval(timerId);
+                    playing = false;
+                    game_ended = true
+                    $("#game_end").dialog("open")
+
                 }
                 document.getElementById('sec1').textContent = addZero(clock1_secs);
                 document.getElementById('min1').textContent = addZero(clock1_mins);
@@ -926,12 +925,15 @@ const startTimer = () => {
                 }
                 clock2_secs = clock2_secs - 1;
                 if (clock2_secs < 0) {
-                    if (clock2_secs == 0 && clock2_mins == 0) {
-                        clearInterval(timerId);
-                        playing = false;
-                    }
+
                     clock2_mins = clock2_mins - 1;
                     clock2_secs = 59;
+                }
+                if (clock2_secs == 0 && clock2_mins == 0) {
+                    clearInterval(timerId);
+                    playing = false;
+                    game_ended = true
+                    $("#game_end").dialog("open")
                 }
                 document.getElementById('sec2').textContent = addZero(clock2_secs);
                 document.getElementById('min2').textContent = addZero(clock2_mins);
@@ -941,42 +943,44 @@ const startTimer = () => {
 }
 
 function addIncrement() {  
-    if (turn == "black") {
-        clock1_secs_box = document.getElementById("sec1");
-        clock1_mins_box = document.getElementById("min1");
-        clock1_mins = parseInt(clock1_mins_box.textContent);
-        clock1_secs = parseInt(clock1_secs_box.textContent);
-        if (clock1_secs + parseInt(increment) > 60) {
-            clock1_mins += 1;
-            clock1_secs = (clock1_secs + parseInt(increment)) - 60
-            document.getElementById("min1").textContent = addZero(clock1_mins)
-            document.getElementById("sec1").textContent = addZero(clock1_secs)
-        } else if (clock1_secs + parseInt(increment) == 60) {
-            clock1_mins += 1;
-            clock1_secs = 0;
-            document.getElementById("min1").textContent = addZero(clock2_mins)
-            document.getElementById("sec1").textContent = addZero(clock2_secs)
-        }else {
-            document.getElementById("sec1").textContent = addZero(clock1_secs + parseInt(increment))
-        }
-    } else {
-        clock2_secs_box = document.getElementById("sec2");
-        clock2_mins_box = document.getElementById("min2");
-        clock2_mins = parseInt(clock2_mins_box.textContent);
-        clock2_secs = parseInt(clock2_secs_box.textContent);
-        if (clock2_secs + parseInt(increment) > 60) {
-            clock2_mins += 1;
-            clock2_secs = (clock2_secs + parseInt(increment)) - 60
-            document.getElementById("min2").textContent = addZero(clock2_mins)
-            document.getElementById("sec2").textContent = addZero(clock2_secs)
-        } else if (clock2_secs + parseInt(increment) == 60) {
-            clock2_mins += 1;
-            clock2_secs = 0;
-            document.getElementById("min2").textContent = addZero(clock2_mins)
-            document.getElementById("sec2").textContent = addZero(clock2_secs)
+    if(!game_ended){
+        if (turn == "black") {
+            clock1_secs_box = document.getElementById("sec1");
+            clock1_mins_box = document.getElementById("min1");
+            clock1_mins = parseInt(clock1_mins_box.textContent);
+            clock1_secs = parseInt(clock1_secs_box.textContent);
+            if (clock1_secs + parseInt(increment) > 60) {
+                clock1_mins += 1;
+                clock1_secs = (clock1_secs + parseInt(increment)) - 60
+                document.getElementById("min1").textContent = addZero(clock1_mins)
+                document.getElementById("sec1").textContent = addZero(clock1_secs)
+            } else if (clock1_secs + parseInt(increment) == 60) {
+                clock1_mins += 1;
+                clock1_secs = 0;
+                document.getElementById("min1").textContent = addZero(clock2_mins)
+                document.getElementById("sec1").textContent = addZero(clock2_secs)
+            }else {
+                document.getElementById("sec1").textContent = addZero(clock1_secs + parseInt(increment))
+            }
         } else {
-            document.getElementById("sec2").textContent = addZero(clock2_secs + parseInt(increment))
-        }
+            clock2_secs_box = document.getElementById("sec2");
+            clock2_mins_box = document.getElementById("min2");
+            clock2_mins = parseInt(clock2_mins_box.textContent);
+            clock2_secs = parseInt(clock2_secs_box.textContent);
+            if (clock2_secs + parseInt(increment) > 60) {
+                clock2_mins += 1;
+                clock2_secs = (clock2_secs + parseInt(increment)) - 60
+                document.getElementById("min2").textContent = addZero(clock2_mins)
+                document.getElementById("sec2").textContent = addZero(clock2_secs)
+            } else if (clock2_secs + parseInt(increment) == 60) {
+                clock2_mins += 1;
+                clock2_secs = 0;
+                document.getElementById("min2").textContent = addZero(clock2_mins)
+                document.getElementById("sec2").textContent = addZero(clock2_secs)
+            } else {
+                document.getElementById("sec2").textContent = addZero(clock2_secs + parseInt(increment))
+            }
+        }        
     }
 }
 
@@ -1122,7 +1126,6 @@ $(document).mouseup(function (evento) {
 
                             if (isCheck(box.id)){
                                 var audio = new Audio('assets/sounds/move-check.webm');
-                                console.log("check in " + box.id)
                                 audio.play()        
                             }
                         }  
@@ -1166,3 +1169,8 @@ $(document).mouseup(function (evento) {
         }
     }
 })
+
+
+$("#game_end").dialog({
+    autoOpen : false
+});
